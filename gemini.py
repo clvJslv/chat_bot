@@ -25,6 +25,7 @@ SERP_API_KEY = "19d8eb43b1f35459653abe2248c3788d0a2fd3274587b3d92c7bc137724b5b10
 api_key = "AIzaSyDz6PLA2Z1nT0-zuwZ-NehWFzU3pX7OMt0"
 
 
+# Funções de busca
 def buscar_links_serpapi(consulta):
     url = "https://serpapi.com/search"
     params = {
@@ -37,7 +38,6 @@ def buscar_links_serpapi(consulta):
     response = requests.get(url, params=params)
     data = response.json()
     resultados = []
-
     for item in data.get("organic_results", []):
         titulo = item.get("title")
         link = item.get("link")
@@ -57,7 +57,6 @@ def buscar_videos_youtube(consulta):
     response = requests.get(url, params=params)
     data = response.json()
     videos = []
-
     for item in data.get("items", []):
         titulo = item["snippet"]["title"]
         video_id = item["id"]["videoId"]
@@ -65,30 +64,54 @@ def buscar_videos_youtube(consulta):
         videos.append((titulo, link))
     return videos
 
+# Inicializar histórico
+if "chat_history" not in st.session_state:
+    st.session_state.chat_history = []
+
 # Interface
-st.title("🔎 Chatbot com Links Reais e Vídeos")
-user_input = st.text_input("Digite sua pergunta:")
+st.title("💬 Chatbot Inteligente com Links e Vídeos")
+if st.button("🧹 Limpar conversa"):
+    st.session_state.chat_history = []
+    st.rerun()
+
+user_input = st.text_input("Você:", key="input")
 
 if user_input:
-    resposta = model.generate_content(f"Responda em 2 linhas:\n{user_input}")
-    st.markdown("### 🤖 Resposta do Gemini:")
-    st.markdown(resposta.text)
+    # Adicionar pergunta ao histórico
+    st.session_state.chat_history.append(("user", user_input))
 
-    st.markdown("### 🔗 Links úteis:")
+    # Gerar resposta do Gemini
+    #resposta = model.generate_content(user_input)
+    resposta = model.generate_content(f"Responda como um chatbot amigável, em até 5 linhas:\n{user_input}")
+    bot_reply = resposta.text.strip()
+    st.session_state.chat_history.append(("bot", bot_reply))
+
+    # Buscar links e vídeos
     links = buscar_links_serpapi(user_input)
-    if links:
-        for titulo, url in links:
-            st.markdown(f"- [{titulo}]({url})")
-    else:
-        st.warning("Nenhum link encontrado.")
-
-    st.markdown("### 🎥 Vídeos relacionados:")
     videos = buscar_videos_youtube(user_input)
-    if videos:
-        for titulo, url in videos:
-            st.markdown(f"- [{titulo}]({url})")
+
+    # Adicionar sugestões ao histórico
+    if links:
+        st.session_state.chat_history.append(("bot", "🔗 Aqui estão alguns links úteis:"))
+        for titulo, url in links:
+            st.session_state.chat_history.append(("bot", f"[{titulo}]({url})"))
     else:
-        st.warning("Nenhum vídeo encontrado.")
+        st.session_state.chat_history.append(("bot", "⚠️ Nenhum link encontrado."))
+
+    if videos:
+        st.session_state.chat_history.append(("bot", "🎥 Vídeos relacionados:"))
+        for titulo, url in videos:
+            st.session_state.chat_history.append(("bot", f"[{titulo}]({url})"))
+    else:
+        st.session_state.chat_history.append(("bot", "⚠️ Nenhum vídeo encontrado."))
+
+# Exibir histórico de conversa
+for autor, mensagem in st.session_state.chat_history:
+    if autor == "user":
+        st.markdown(f"**👤 Você:** {mensagem}")
+    else:
+        st.markdown(f"**🤖 Bot:** {mensagem}")
+
 
         
         
