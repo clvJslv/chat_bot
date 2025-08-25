@@ -13,12 +13,17 @@ import streamlit as st
 import google.generativeai as genai
 import requests
 
+
 # Configurar Gemini
 genai.configure(api_key="AIzaSyDz6PLA2Z1nT0-zuwZ-NehWFzU3pX7OMt0")
 model = genai.GenerativeModel("gemini-1.5-flash")
 
 # Configurar SerpAPI
 SERP_API_KEY = "19d8eb43b1f35459653abe2248c3788d0a2fd3274587b3d92c7bc137724b5b10"
+
+# Configurar YouTube API
+api_key = "AIzaSyDz6PLA2Z1nT0-zuwZ-NehWFzU3pX7OMt0"
+
 
 def buscar_links_serpapi(consulta):
     url = "https://serpapi.com/search"
@@ -40,8 +45,28 @@ def buscar_links_serpapi(consulta):
             resultados.append((titulo, link))
     return resultados
 
+def buscar_videos_youtube(consulta):
+    url = "https://www.googleapis.com/youtube/v3/search"
+    params = {
+        "part": "snippet",
+        "q": consulta,
+        "type": "video",
+        "maxResults": 3,
+        "key": api_key
+    }
+    response = requests.get(url, params=params)
+    data = response.json()
+    videos = []
+
+    for item in data.get("items", []):
+        titulo = item["snippet"]["title"]
+        video_id = item["id"]["videoId"]
+        link = f"https://www.youtube.com/watch?v={video_id}"
+        videos.append((titulo, link))
+    return videos
+
 # Interface
-st.title("🔎 Chatbot com Links Reais")
+st.title("🔎 Chatbot com Links Reais e Vídeos")
 user_input = st.text_input("Digite sua pergunta:")
 
 if user_input:
@@ -56,3 +81,14 @@ if user_input:
             st.markdown(f"- [{titulo}]({url})")
     else:
         st.warning("Nenhum link encontrado.")
+
+    st.markdown("### 🎥 Vídeos relacionados:")
+    videos = buscar_videos_youtube(user_input)
+    if videos:
+        for titulo, url in videos:
+            st.markdown(f"- [{titulo}]({url})")
+    else:
+        st.warning("Nenhum vídeo encontrado.")
+
+        
+        
