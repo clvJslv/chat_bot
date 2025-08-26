@@ -28,27 +28,27 @@ class DatabaseConnection:
     def get_perguntas(self, filtro_modulo=None):
         cursor = self.conn.cursor()
         if filtro_modulo:
-            cursor.execute("SELECT id, pergunta, FK_MODULO FROM SimuladoPerguntas WHERE FK_MODULO = ?", filtro_modulo)
+            cursor.execute("SELECT PK_CO_PERGUNTA, CO_PERGUNTA,  DE_PERGUNTA FROM smulado.dbo.TB_007_PERGUNTAS WHERE PK_CO_PERGUNTA = ?", filtro_modulo)
         else:
-            cursor.execute("SELECT id, pergunta, FK_MODULO FROM SimuladoPerguntas")
+            cursor.execute("SELECT PK_CO_PERGUNTA, CO_PERGUNTA,  DE_PERGUNTA FROM smulado.dbo.TB_007_PERGUNTAS")
         rows = cursor.fetchall()
         cursor.close()
         return rows
 
     def insert_pergunta(self, pergunta, modulo):
         cursor = self.conn.cursor()
-        cursor.execute("INSERT INTO SimuladoPerguntas (pergunta, FK_MODULO) VALUES (?, ?)", pergunta, modulo)
+        cursor.execute("INSERT INTO smulado.dbo.TB_007_PERGUNTAS (CO_PERGUNTA, DE_PERGUNTA) VALUES (?, ?)", pergunta, modulo)
         self.conn.commit()
         cursor.close()
 
     def update_pergunta(self, id, pergunta, modulo):
         cursor = self.conn.cursor()
-        cursor.execute("UPDATE SimuladoPerguntas SET pergunta = ?, FK_MODULO = ? WHERE id = ?", pergunta, modulo, id)
+        cursor.execute("UPDATE smulado.dbo.TB_007_PERGUNTAS SET CO_PERGUNTA = ?, DE_PERGUNTA = ? WHERE PK_CO_PERGUNTA = ?", pergunta, modulo, id)
         self.conn.commit()
         cursor.close()
 
     def delete_pergunta(self, id):
         cursor = self.conn.cursor()
-        cursor.execute("DELETE FROM SimuladoPerguntas WHERE id = ?", id)
+        cursor.execute("DELETE FROM smulado.dbo.TB_007_PERGUNTAS WHERE PK_CO_PERGUNTA = ?", id)
         self.conn.commit()
         cursor.close()
