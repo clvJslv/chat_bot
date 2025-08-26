@@ -19,7 +19,7 @@ api_key = st.secrets["YOUTUBE_API_KEY"]
 
 # Configurar Gemini
 
-genai.configure(api_key="GEMINI_API_KEY") 
+genai.configure(api_key=gemini_key) 
 #genai.configure(api_key="AIzaSyDz6PLA2Z1nT0-zuwZ-NehWFzU3pX7OMt0")
 model = genai.GenerativeModel("gemini-1.5-flash")
 
