@@ -109,3 +109,46 @@ class DatabaseConnection:
         cursor.execute("DELETE FROM TB_007_PERGUNTAS WHERE PK_CO_PERGUNTA = ?", id)
         self.conn.commit()
         cursor.close()
+        
+# Respostas
+class DatabaseConnection:
+    # ... conexão e métodos de perguntas ...
+
+    def get_respostas(self, pergunta_id=None):
+        cursor = self.conn.cursor()
+        if pergunta_id:
+            cursor.execute("""
+                SELECT CO_RESPOSTA, NO_RESPOSTA, FK_CO_PERGUNTA, CO_RESPOSTA_CORRETA
+                FROM TB_008_RESPOSTAS WHERE FK_CO_PERGUNTA = ?
+            """, pergunta_id)
+        else:
+            cursor.execute("SELECT CO_RESPOSTA, NO_RESPOSTA, FK_CO_PERGUNTA, CO_RESPOSTA_CORRETA FROM TB_008_RESPOSTAS")
+        columns = [col[0] for col in cursor.description]
+        rows = [dict(zip(columns, row)) for row in cursor.fetchall()]
+        cursor.close()
+        return rows
+
+    def insert_resposta(self, texto_resposta, pergunta_id, resposta_correta):
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            INSERT INTO TB_008_RESPOSTAS (NO_RESPOSTA, FK_CO_PERGUNTA, CO_RESPOSTA_CORRETA)
+            VALUES (?, ?, ?)
+        """, texto_resposta, pergunta_id, resposta_correta)
+        self.conn.commit()
+        cursor.close()
+
+    def update_resposta(self, resposta_id, texto_resposta, pergunta_id, resposta_correta):
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            UPDATE TB_008_RESPOSTAS
+            SET NO_RESPOSTA = ?, FK_CO_PERGUNTA = ?, CO_RESPOSTA_CORRETA = ?
+            WHERE CO_RESPOSTA = ?
+        """, texto_resposta, pergunta_id, resposta_correta, resposta_id)
+        self.conn.commit()
+        cursor.close()
+
+    def delete_resposta(self, resposta_id):
+        cursor = self.conn.cursor()
+        cursor.execute("DELETE FROM TB_008_RESPOSTAS WHERE CO_RESPOSTA = ?", resposta_id)
+        self.conn.commit()
+        cursor.close()
