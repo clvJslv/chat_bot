@@ -4,7 +4,7 @@ st.set_page_config(
     page_title="",
     page_icon="🔮",
     layout="wide",  # "centered",  ou "wide"
-    initial_sidebar_state="expanded",  # "auto", "expanded" ou "collapsed"
+    initial_sidebar_state="collapsed",  # "auto", "expanded" ou "collapsed"
 
 )
 
