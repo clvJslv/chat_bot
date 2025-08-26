@@ -79,7 +79,7 @@ if dados is not None and not dados.empty:
             'background-color': '#ffffff',
             'color': '#333333',
             'border-color': '#cccccc'
-        }).highlight_null(null_color='lightgray'),
+        }).highlight_null(color='lightgray'),
         use_container_width=True,
         height=600
     )
