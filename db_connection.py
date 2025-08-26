@@ -1,6 +1,8 @@
+# db_connection.py
 import pyodbc
 import streamlit as st
 
+# Conexão com a base de dados
 class DatabaseConnection:
     def __init__(self):
         db = st.secrets["database"]
@@ -17,33 +19,36 @@ class DatabaseConnection:
         self.conn = None
 
     def connect(self):
-        try:
-            self.conn = pyodbc.connect(self.connection_string)
-        except Exception as e:
-            raise ConnectionError(f"Erro ao conectar: {e}")
-
-    def execute_merge(self, id_input, pergunta, modulo):
-        cursor = self.conn.cursor()
-        merge_sql = """
-        MERGE INTO [dbo].[SimuladoPerguntas] AS destino
-        USING (SELECT ? AS id) AS origem
-        ON destino.id = origem.id
-        WHEN MATCHED THEN
-            UPDATE SET pergunta = ?, FK_MODULO = ?
-        WHEN NOT MATCHED THEN
-            INSERT (pergunta, FK_MODULO) VALUES (?, ?);
-        """
-        cursor.execute(
-            merge_sql,
-            id_input if id_input else None,
-            pergunta,
-            modulo,
-            pergunta,
-            modulo
-        )
-        self.conn.commit()
-        cursor.close()
+        self.conn = pyodbc.connect(self.connection_string)
 
     def close(self):
         if self.conn:
             self.conn.close()
+
+    def get_perguntas(self, filtro_modulo=None):
+        cursor = self.conn.cursor()
+        if filtro_modulo:
+            cursor.execute("SELECT id, pergunta, FK_MODULO FROM SimuladoPerguntas WHERE FK_MODULO = ?", filtro_modulo)
+        else:
+            cursor.execute("SELECT id, pergunta, FK_MODULO FROM SimuladoPerguntas")
+        rows = cursor.fetchall()
+        cursor.close()
+        return rows
+
+    def insert_pergunta(self, pergunta, modulo):
+        cursor = self.conn.cursor()
+        cursor.execute("INSERT INTO SimuladoPerguntas (pergunta, FK_MODULO) VALUES (?, ?)", pergunta, modulo)
+        self.conn.commit()
+        cursor.close()
+
+    def update_pergunta(self, id, pergunta, modulo):
+        cursor = self.conn.cursor()
+        cursor.execute("UPDATE SimuladoPerguntas SET pergunta = ?, FK_MODULO = ? WHERE id = ?", pergunta, modulo, id)
+        self.conn.commit()
+        cursor.close()
+
+    def delete_pergunta(self, id):
+        cursor = self.conn.cursor()
+        cursor.execute("DELETE FROM SimuladoPerguntas WHERE id = ?", id)
+        self.conn.commit()
+        cursor.close()
