@@ -22,7 +22,7 @@ def conectar_banco():
 
 # Função para gerar um único INSERT fixo
 def gerar_insert_fixo():
-    sql = "INSERT INTO [dbo].[SimuladoPerguntas] ([id], [pergunta], [FK_MODULO]) VALUES (100, 'quem descobriu o brasil', 1000);"
+    sql = "INSERT INTO [dbo].[SimuladoPerguntas] ([pergunta], [FK_MODULO]) VALUES ('quem descobriu o brasil', 1000);"
     return sql
 
    
