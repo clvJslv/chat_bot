@@ -19,6 +19,29 @@ def conectar_banco():
         st.error(f"❌ Erro ao conectar: {erro}")
         return None
 
+# Função para gerar perguntas aleatórias
+def gerar_inserts_aleatorios(qtd):
+    perguntas_exemplo = [
+        "Qual é a capital do Brasil?",
+        "O que é um algoritmo?",
+        "Quem descobriu o Brasil?",
+        "O que significa HTML?",
+        "Qual linguagem estiliza páginas web?",
+        "O que é uma variável?",
+        "Qual a função do comando SELECT?",
+        "O que representa o número pi?",
+        "Qual a diferença entre RAM e HD?",
+        "Em que ano foi a independência do Brasil?"
+    ]
+    inserts = []
+    for i in range(1, qtd + 1):
+        pergunta = random.choice(perguntas_exemplo)
+        pergunta = pergunta.replace("'", "''")  # Escapar aspas simples
+        fk_modulo = random.randint(100, 105)
+        sql = f"INSERT INTO [dbo].[SimuladoPerguntas] ([id], [pergunta], [FK_MODULO]) VALUES ({i}, '{pergunta}', {fk_modulo});"
+        inserts.append(sql)
+    return inserts
+
 # Interface Streamlit
 st.set_page_config(page_title="Conexão com Banco", page_icon="🗄️", layout="centered")
 st.title("🗄️ Conexão com SQL Server")
@@ -40,23 +63,11 @@ if st.button("🔌 Conectar ao Banco"):
                 for tabela in tabelas:
                     st.markdown(f"- **{tabela.name}**")
 
-                # Geração de INSERTs para SimuladoPerguntas
-                st.subheader("📝 Gerar INSERTs da tabela SimuladoPerguntas")
-                cursor.execute("SELECT TOP 10 [id], [pergunta], [FK_MODULO] FROM [dbo].[SimuladoPerguntas]")
-                registros = cursor.fetchall()
-
-                if registros:
-                    inserts = []
-                    for linha in registros:
-                        id = linha.id
-                        pergunta = linha.pergunta.replace("'", "''")  # Escapar aspas simples
-                        fk = linha.FK_MODULO
-                        sql = f"INSERT INTO [dbo].[SimuladoPerguntas] ([id], [pergunta], [FK_MODULO]) VALUES ({id}, '{pergunta}', {fk});"
-                        inserts.append(sql)
-
-                    st.code("\n".join(inserts), language="sql")
-                else:
-                    st.info("Nenhum registro encontrado na tabela SimuladoPerguntas.")
+                # Geração de INSERTs aleatórios
+                st.subheader("🧪 Gerar INSERTs aleatórios para SimuladoPerguntas")
+                qtd = st.slider("Quantidade de INSERTs", 1, 20, 10)
+                inserts = gerar_inserts_aleatorios(qtd)
+                st.code("\n".join(inserts), language="sql")
             else:
                 st.info("Nenhuma tabela encontrada no banco.")
         except Exception as erro:
