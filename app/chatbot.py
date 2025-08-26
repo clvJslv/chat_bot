@@ -7,6 +7,8 @@ gemini_key = st.secrets["GEMINI_API_KEY"]
 SERP_API_KEY = st.secrets["SERP_API_KEYS"]
 api_key = st.secrets["YOUTUBE_API_KEY"]
 
+
+
 # Configurar Gemini
 genai.configure(api_key=gemini_key) 
 model = genai.GenerativeModel("gemini-1.5-flash")
