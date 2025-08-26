@@ -22,12 +22,10 @@ def conectar_banco():
 
 # Função para gerar um único INSERT fixo
 def gerar_insert_fixo():
-    id = 9999
-    pergunta = "Qual é a capital de Pernambuco?"
-    fk_modulo = 101
-    sql = f"INSERT INTO [dbo].[SimuladoPerguntas] ([id], [pergunta], [FK_MODULO]) VALUES ({id}, '{pergunta}', {fk_modulo});"
+    sql = "INSERT INTO [dbo].[SimuladoPerguntas] ([id], [pergunta], [FK_MODULO]) VALUES (100, 'quem descobriu o brasil', 1000);"
     return sql
 
+   
 # Interface Streamlit
 st.set_page_config(page_title="Conexão com Banco", page_icon="🗄️", layout="centered")
 st.title("🗄️ Conexão com SQL Server")
