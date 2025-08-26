@@ -63,18 +63,16 @@ else:
 # 📋 Visualização das perguntas
 st.subheader("📋 Perguntas cadastradas")
 
-st.subheader("📋 Perguntas cadastradas")
-
 if perguntas and len(perguntas) > 0:
     for row in perguntas:
-        with st.expander(f"ID {row['PK_CO_PERGUNTA']} - Módulo {row['FK_MODULO']}"):
-            st.write(row['DE_PERGUNTA'])
+        with st.expander(f"ID {row['PK_CO_PERGUNTA']} - Código {row['CO_PERGUNTA'].strip()}"):
+            st.write(row['DE_PERGUNTA'].strip())
             col1, col2 = st.columns(2)
             with col1:
                 if st.button(f"✏️ Editar {row['PK_CO_PERGUNTA']}", key=f"editar_{row['PK_CO_PERGUNTA']}"):
                     st.session_state["edit_id"] = row['PK_CO_PERGUNTA']
-                    st.session_state["edit_pergunta"] = row['DE_PERGUNTA']
-                    st.session_state["edit_modulo"] = row['FK_MODULO']
+                    st.session_state["edit_codigo"] = row['CO_PERGUNTA'].strip()
+                    st.session_state["edit_descricao"] = row['DE_PERGUNTA'].strip()
             with col2:
                 if st.button(f"❌ Excluir {row['PK_CO_PERGUNTA']}", key=f"excluir_{row['PK_CO_PERGUNTA']}"):
                     db.delete_pergunta(row['PK_CO_PERGUNTA'])
@@ -87,24 +85,24 @@ else:
 st.subheader("➕ Adicionar ou Editar Pergunta")
 with st.form("form_crud"):
     id_edicao = st.session_state.get("edit_id", None)
-    pergunta_input = st.text_area("Pergunta", value=st.session_state.get("edit_pergunta", ""))
-    modulo_input = st.text_area("Descrição da Pergunta", value=st.session_state.get("edit_modulo", ""))
+    codigo_input = st.text_input("Código da Pergunta", value=st.session_state.get("edit_codigo", ""))
+    descricao_input = st.text_area("Descrição da Pergunta", value=st.session_state.get("edit_descricao", ""))
     
     enviar = st.form_submit_button("💾 Salvar")
 
 if enviar:
-    if not pergunta_input.strip():
-        st.warning("⚠️ A pergunta não pode estar vazia.")
+    if not codigo_input.strip() or not descricao_input.strip():
+        st.warning("⚠️ Código e descrição não podem estar vazios.")
     else:
         if id_edicao:
-            db.update_pergunta(id_edicao, pergunta_input, modulo_input)
+            db.update_pergunta(id_edicao, codigo_input, descricao_input)
             st.success("✅ Pergunta atualizada com sucesso!")
             st.session_state["edit_id"] = None
         else:
-            db.insert_pergunta(pergunta_input, modulo_input)
+            db.insert_pergunta(codigo_input, descricao_input)
             st.success("✅ Pergunta adicionada com sucesso!")
-        st.session_state["edit_pergunta"] = ""
-        st.session_state["edit_modulo"] = ""
+        st.session_state["edit_codigo"] = ""
+        st.session_state["edit_descricao"] = ""
         st.rerun()
 
 # 🔒 Encerrando conexão
