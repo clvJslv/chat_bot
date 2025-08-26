@@ -1,17 +1,18 @@
-# db_connection.py
 import pyodbc
+import streamlit as st
 
 class DatabaseConnection:
     def __init__(self):
+        db = st.secrets["database"]
         self.connection_string = (
-            "DRIVER={ODBC Driver 17 for SQL Server};"
-            "SERVER=myfreesqldbserver-0101.database.windows.net;"
-            "DATABASE=myFreeDB;"
-            "UID=ivan;"
-            "PWD=MigMat01#!;"
-            "Encrypt=yes;"
-            "TrustServerCertificate=no;"
-            "Connection Timeout=30;"
+            f"DRIVER={{{db['driver']}}};"
+            f"SERVER={db['server']};"
+            f"DATABASE={db['database']};"
+            f"UID={db['uid']};"
+            f"PWD={db['pwd']};"
+            f"Encrypt={db['encrypt']};"
+            f"TrustServerCertificate={db['trust_cert']};"
+            f"Connection Timeout={db['timeout']};"
         )
         self.conn = None
 
