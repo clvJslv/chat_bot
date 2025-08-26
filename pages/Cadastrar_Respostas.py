@@ -1,10 +1,6 @@
 import streamlit as st
 from db_connection import DatabaseConnection
 
-# 🔌 Conexão com o banco
-db = DatabaseConnection()
-db.connect()
-
 # 🔧 Estilo personalizado
 with open("assets/style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
@@ -53,8 +49,9 @@ with st.sidebar:
     st.markdown("### 📞 Suporte")
     st.write("Email: suporte@meuapp.com")
 
-
-
+# 🔌 Conexão com o banco
+db = DatabaseConnection()
+db.connect()
 
 # 🔍 Selecionar pergunta existente
 perguntas = db.get_perguntas()
