@@ -42,7 +42,7 @@ with st.sidebar:
         st.switch_page("pages/Gerar_Simulado.py")
     if st.button("🤖 Ir para conn_azure", key="btn_azure"):
         st.switch_page("pages/conn_azure.py")
-    if st.button("🤖 Retornar", key="btn_teste"):
+    if st.button("🤖 teste_con", key="btn_teste"):
         st.switch_page("teste_con.py")
     if st.button("🤖 Retornar", key="btn_retornar"):
         st.switch_page("gemini.py")
