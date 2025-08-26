@@ -5,7 +5,6 @@ st.set_page_config(
     page_title="Portal YOLO",
     page_icon="🧠",
     layout="wide",
-    initial_sidebar_state="expanded"
 )
 
 # Estilização da barra lateral
@@ -25,21 +24,55 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# Inicializa a página atual
+if "pagina_atual" not in st.session_state:
+    st.session_state.pagina_atual = "home"
+
+# Funções de cada “página”
+def home():
+    st.markdown(
+        """<h1 style='text-align: center; color: #4B8BBE;'>🔮 Aplicativos de Detecção de Faces e Objetos</h1>""",
+        unsafe_allow_html=True
+    )
+    with st.expander("ℹ️ Sobre este portal"):
+        st.markdown("""
+            Este é um hub de aplicativos de rede neural baseados em **YOLO (You Only Look Once)** para detecção de objetos e rostos em tempo real.
+
+            - 📚 [Documentação oficial do Streamlit](https://docs.streamlit.io/)
+            - 🐞 [Reportar falhas ou bugs](https://github.com/streamlit/streamlit/issues)
+        """)
+    st.divider()
+    st.markdown("### 🧪 Escolha um aplicativo na barra lateral para começar.")
+
+def chatbot():
+    st.title("🤖 Chatbot")
+    st.write("Aqui você pode conversar com o modelo de IA.")
+
+def cadastrar_questoes():
+    st.title("📝 Cadastro de Questões")
+    st.write("Interface para cadastrar perguntas no sistema.")
+
+def gerar_simulado():
+    st.title("🧪 Gerar Simulado")
+    st.write("Ferramenta para montar simulados personalizados.")
+
+def conn_azure():
+    st.title("🔗 Conexão com Azure")
+    st.write("Configuração e testes de integração com Azure.")
+
 # Barra lateral personalizada
 with st.sidebar:
     st.markdown("## 🧭 Navegação")
     if st.button("🤖 Ir para Chatbot"):
-        st.switch_page("app/chatbot.py")
-    if st.button("🤖 Ir para Cadastrar_Questões"):
-        st.switch_page("app/Cadastrar_Questões.py")
-    if st.button("🤖 Ir para Gerar_Simulado"):
-        st.switch_page("app/Gerar_Simulado.py")
-    if st.button("🤖 Ir para conn_azure"):
-        st.switch_page("app/conn_azure.py")
-    
-    if st.button("🤖 Retornar"):
-        st.switch_page("gemini.py")
-    
+        st.session_state.pagina_atual = "chatbot"
+    if st.button("📝 Ir para Cadastrar Questões"):
+        st.session_state.pagina_atual = "cadastrar_questoes"
+    if st.button("🧪 Ir para Gerar Simulado"):
+        st.session_state.pagina_atual = "gerar_simulado"
+    if st.button("🔗 Ir para Conexão Azure"):
+        st.session_state.pagina_atual = "conn_azure"
+    if st.button("🏠 Retornar à Home"):
+        st.session_state.pagina_atual = "home"
 
     st.markdown("---")
     st.markdown("## ⚙️ Configurações")
@@ -50,23 +83,14 @@ with st.sidebar:
     st.markdown("### 📞 Suporte")
     st.write("Email: suporte@meuapp.com")
 
-# Conteúdo principal
-st.markdown(
-    """
-    <h1 style='text-align: center; color: #4B8BBE;'>🔮 Aplicativos de Detecção de Faces e Objetos</h1>
-    """,
-    unsafe_allow_html=True
-)
-
-with st.expander("ℹ️ Sobre este portal"):
-    st.markdown(
-        """
-        Este é um hub de aplicativos de rede neural baseados em **YOLO (You Only Look Once)** para detecção de objetos e rostos em tempo real.
-
-        - 📚 [Documentação oficial do Streamlit](https://docs.streamlit.io/)
-        - 🐞 [Reportar falhas ou bugs](https://github.com/streamlit/streamlit/issues)
-        """
-    )
-
-st.divider()
-st.markdown("### 🧪 Escolha um aplicativo na barra lateral para começar.")
+# Renderiza a página atual
+if st.session_state.pagina_atual == "home":
+    home()
+elif st.session_state.pagina_atual == "chatbot":
+    chatbot()
+elif st.session_state.pagina_atual == "cadastrar_questoes":
+    cadastrar_questoes()
+elif st.session_state.pagina_atual == "gerar_simulado":
+    gerar_simulado()
+elif st.session_state.pagina_atual == "conn_azure":
+    conn_azure()
