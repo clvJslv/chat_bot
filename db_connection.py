@@ -111,9 +111,6 @@ class DatabaseConnection:
         cursor.close()
         
 # Respostas
-class DatabaseConnection:
-    # ... conexão e métodos de perguntas ...
-
     def get_respostas(self, pergunta_id=None):
         cursor = self.conn.cursor()
         if pergunta_id:
