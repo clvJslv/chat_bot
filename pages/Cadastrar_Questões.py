@@ -31,7 +31,7 @@ if perguntas:
                 if st.button(f"❌ Excluir {row.id}"):
                     db.delete_pergunta(row.id)
                     st.success(f"Pergunta {row.id} excluída.")
-                    st.experimental_rerun()
+                    st.rerun()
 else:
     st.info("Nenhuma pergunta encontrada.")
 
@@ -56,6 +56,6 @@ if enviar:
             st.success("✅ Pergunta adicionada com sucesso!")
         st.session_state["edit_pergunta"] = ""
         st.session_state["edit_modulo"] = 1
-        st.experimental_rerun()
+        st.rerun()
 
 db.close()
