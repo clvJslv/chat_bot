@@ -1,5 +1,7 @@
 import streamlit as st
 import pyodbc
+import random
+
 
 # Função de conexão
 def conectar_banco():
@@ -19,8 +21,8 @@ def conectar_banco():
         st.error(f"❌ Erro ao conectar: {erro}")
         return None
 
-# Função para gerar perguntas aleatórias
-def gerar_inserts_aleatorios(qtd):
+# Função para gerar um único INSERT aleatório
+def gerar_insert_unico():
     perguntas_exemplo = [
         "Qual é a capital do Brasil?",
         "O que é um algoritmo?",
@@ -33,14 +35,11 @@ def gerar_inserts_aleatorios(qtd):
         "Qual a diferença entre RAM e HD?",
         "Em que ano foi a independência do Brasil?"
     ]
-    inserts = []
-    for i in range(1, qtd + 1):
-        pergunta = random.choice(perguntas_exemplo)
-        pergunta = pergunta.replace("'", "''")  # Escapar aspas simples
-        fk_modulo = random.randint(100, 105)
-        sql = f"INSERT INTO [dbo].[SimuladoPerguntas] ([id], [pergunta], [FK_MODULO]) VALUES ({i}, '{pergunta}', {fk_modulo});"
-        inserts.append(sql)
-    return inserts
+    pergunta = random.choice(perguntas_exemplo).replace("'", "''")
+    fk_modulo = random.randint(100, 105)
+    id = random.randint(1000, 9999)  # ID aleatório para evitar conflito
+    sql = f"INSERT INTO [dbo].[SimuladoPerguntas] ([id], [pergunta], [FK_MODULO]) VALUES ({id}, '{pergunta}', {fk_modulo});"
+    return sql
 
 # Interface Streamlit
 st.set_page_config(page_title="Conexão com Banco", page_icon="🗄️", layout="centered")
@@ -63,11 +62,11 @@ if st.button("🔌 Conectar ao Banco"):
                 for tabela in tabelas:
                     st.markdown(f"- **{tabela.name}**")
 
-                # Geração de INSERTs aleatórios
-                st.subheader("🧪 Gerar INSERTs aleatórios para SimuladoPerguntas")
-                qtd = st.slider("Quantidade de INSERTs", 1, 20, 10)
-                inserts = gerar_inserts_aleatorios(qtd)
-                st.code("\n".join(inserts), language="sql")
+                # Geração de INSERT único
+                st.subheader("🧪 Gerar um único INSERT aleatório para SimuladoPerguntas")
+                if st.button("🎲 Gerar INSERT"):
+                    insert_sql = gerar_insert_unico()
+                    st.code(insert_sql, language="sql")
             else:
                 st.info("Nenhuma tabela encontrada no banco.")
         except Exception as erro:
