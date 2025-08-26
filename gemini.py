@@ -30,6 +30,8 @@ with st.sidebar:
     st.markdown("## 🧭 Navegação")
     if st.button("🤖 Ir para Chatbot"):
         st.switch_page("pages/chatbot.py")
+    if st.button("🤖 Retornar"):
+        st.switch_page("gemini.py")
 
     st.markdown("---")
     st.markdown("## ⚙️ Configurações")
