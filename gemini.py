@@ -3,8 +3,6 @@ import streamlit as st
 with open("assets/style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-with open("assets/style.css") as f:
-    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 # Configuração da página
 st.set_page_config(
@@ -35,13 +33,13 @@ st.markdown("""
 with st.sidebar:
     st.markdown("## 🧭 Navegação")
     if st.button("🤖 Ir para Chatbot"):
-        st.switch_page("/chatbot.py")
+        st.switch_page("pages/chatbot.py")
     if st.button("🤖 Ir para Cadastrar_Questões"):
-        st.switch_page("app/Cadastrar_Questões.py")
+        st.switch_page("pages/Cadastrar_Questões.py")
     if st.button("🤖 Ir para Gerar_Simulado"):
-        st.switch_page("app/Gerar_Simulado.py")
+        st.switch_page("pages/Gerar_Simulado.py")
     if st.button("🤖 Ir para conn_azure"):
-        st.switch_page("app/conn_azure.py")
+        st.switch_page("pages/conn_azure.py")
     
     if st.button("🤖 Retornar"):
         st.switch_page("gemini.py")
