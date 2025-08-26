@@ -1,6 +1,7 @@
 import streamlit as st
 import pyodbc
 
+
 # Função de conexão
 def conectar_banco():
     try:
