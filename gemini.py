@@ -13,16 +13,22 @@ import streamlit as st
 import google.generativeai as genai
 import requests
 
+gemini_key = st.secrets["GEMINI_API_KEY"]
+SERP_API_KEY = st.secrets["SERP_API_KEYS"]
+api_key = st.secrets["YOUTUBE_API_KEY"]
 
 # Configurar Gemini
-genai.configure(api_key="AIzaSyDz6PLA2Z1nT0-zuwZ-NehWFzU3pX7OMt0")
+
+genai.configure(api_key="GEMINI_API_KEY") 
+#genai.configure(api_key="AIzaSyDz6PLA2Z1nT0-zuwZ-NehWFzU3pX7OMt0")
 model = genai.GenerativeModel("gemini-1.5-flash")
 
 # Configurar SerpAPI
-SERP_API_KEY = "19d8eb43b1f35459653abe2248c3788d0a2fd3274587b3d92c7bc137724b5b10"
+#SERP_API_KEY = "SERP_API_KEY"
+#SERP_API_KEY = "19d8eb43b1f35459653abe2248c3788d0a2fd3274587b3d92c7bc137724b5b10"
 
 # Configurar YouTube API
-api_key = "AIzaSyDz6PLA2Z1nT0-zuwZ-NehWFzU3pX7OMt0"
+#api_key = "AIzaSyDz6PLA2Z1nT0-zuwZ-NehWFzU3pX7OMt0"
 
 
 # Funções de busca
