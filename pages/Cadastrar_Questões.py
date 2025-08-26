@@ -5,6 +5,23 @@ from db_connection import DatabaseConnection
 st.set_page_config(page_title="📚 CRUD Simulado", layout="wide")
 st.title("📚 Gerenciador de Perguntas do Simulado")
 
+# Barra lateral personalizada
+with st.sidebar:
+    st.markdown("## 🧭 Navegação")
+    if st.button("🤖 Ir para Chatbot"):
+        st.switch_page("pages/chatbot.py")
+    if st.button("🤖 Retornar"):
+        st.switch_page("gemini.py")
+
+    st.markdown("---")
+    st.markdown("## ⚙️ Configurações")
+    st.selectbox("Modo de exibição", ["Claro", "Escuro", "Automático"])
+    st.slider("Sensibilidade do modelo", 0.0, 1.0, 0.5)
+
+    st.markdown("---")
+    st.markdown("### 📞 Suporte")
+    st.write("Email: suporte@meuapp.com")
+
 db = DatabaseConnection()
 db.connect()
 
