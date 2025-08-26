@@ -64,15 +64,15 @@ def conn_azure():
 with st.sidebar:
     st.markdown("## 🧭 Navegação")
     if st.button("🤖 Ir para Chatbot"):
-        st.session_state.pagina_atual = "app/chatbot"
+        st.session_state.pagina_atual = "chatbot"
     if st.button("📝 Ir para Cadastrar Questões"):
-        st.session_state.pagina_atual = "app/cadastrar_questoes"
+        st.session_state.pagina_atual = "cadastrar_questoes"
     if st.button("🧪 Ir para Gerar Simulado"):
-        st.session_state.pagina_atual = "app/gerar_simulado"
+        st.session_state.pagina_atual = "gerar_simulado"
     if st.button("🔗 Ir para Conexão Azure"):
-        st.session_state.pagina_atual = "app/conn_azure"
+        st.session_state.pagina_atual = "conn_azure"
     if st.button("🏠 Retornar à Home"):
-        st.session_state.pagina_atual = "app/home"
+        st.session_state.pagina_atual = "home"
 
     st.markdown("---")
     st.markdown("## ⚙️ Configurações")
