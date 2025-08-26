@@ -64,20 +64,26 @@ else:
 st.subheader("📋 Perguntas cadastradas")
 
 if perguntas and len(perguntas) > 0:
-    for row in perguntas:
-        with st.expander(f"ID {row['PK_CO_PERGUNTA']} - Código {row['CO_PERGUNTA'].strip()}"):
-            st.write(row['DE_PERGUNTA'].strip())
-            col1, col2 = st.columns(2)
-            with col1:
-                if st.button(f"✏️ Editar {row['PK_CO_PERGUNTA']}", key=f"editar_{row['PK_CO_PERGUNTA']}"):
-                    st.session_state["edit_id"] = row['PK_CO_PERGUNTA']
-                    st.session_state["edit_codigo"] = row['CO_PERGUNTA'].strip()
-                    st.session_state["edit_descricao"] = row['DE_PERGUNTA'].strip()
-            with col2:
-                if st.button(f"❌ Excluir {row['PK_CO_PERGUNTA']}", key=f"excluir_{row['PK_CO_PERGUNTA']}"):
-                    db.delete_pergunta(row['PK_CO_PERGUNTA'])
-                    st.success(f"Pergunta {row['PK_CO_PERGUNTA']} excluída.")
-                    st.rerun()
+   for row in perguntas:
+    codigo = row['CO_PERGUNTA']
+    descricao = row['DE_PERGUNTA']
+
+    codigo_formatado = codigo.strip() if codigo else "Sem código"
+    descricao_formatada = descricao.strip() if descricao else "Sem descrição"
+
+    with st.expander(f"ID {row['PK_CO_PERGUNTA']} - Código {codigo_formatado}"):
+        st.write(descricao_formatada)
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button(f"✏️ Editar {row['PK_CO_PERGUNTA']}", key=f"editar_{row['PK_CO_PERGUNTA']}"):
+                st.session_state["edit_id"] = row['PK_CO_PERGUNTA']
+                st.session_state["edit_codigo"] = codigo_formatado
+                st.session_state["edit_descricao"] = descricao_formatada
+        with col2:
+            if st.button(f"❌ Excluir {row['PK_CO_PERGUNTA']}", key=f"excluir_{row['PK_CO_PERGUNTA']}"):
+                db.delete_pergunta(row['PK_CO_PERGUNTA'])
+                st.success(f"Pergunta {row['PK_CO_PERGUNTA']} excluída.")
+                st.rerun()
 else:
     st.warning("⚠️ Nenhuma pergunta encontrada para o filtro atual.")
 
