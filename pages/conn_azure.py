@@ -25,13 +25,13 @@ def executar_insert():
     if conexao:
         try:
             cursor = conexao.cursor()
-            sql = "INSERT INTO [dbo].[SimuladoPerguntas] ([pergunta], [FK_MODULO]) VALUES ('quem descobriu a bola', 1001);"
+            sql = "INSERT INTO [dbo].[SimuladoPerguntas] ([pergunta], [FK_MODULO]) VALUES ('quem descobriu a abelha', 1002);"
             cursor.execute(sql)
             conexao.commit()
             st.success("✅ INSERT executado com sucesso!")
 
             # Verificando se foi inserido
-            cursor.execute("SELECT * FROM [dbo].[SimuladoPerguntas] WHERE id = 100")
+            cursor.execute("SELECT * FROM [dbo].[SimuladoPerguntas]")
             resultado = cursor.fetchone()
             if resultado:
                 st.write("📌 Resultado do SELECT:")
