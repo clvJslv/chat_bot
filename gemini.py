@@ -1,14 +1,3 @@
-#import google.generativeai as genai
-
-#genai.configure(api_key="AIzaSyDz6PLA2Z1nT0-zuwZ-NehWFzU3pX7OMt0")
-
-#model = genai.GenerativeModel("gemini-1.5-flash")
-
-#response = model.generate_content("Explique o que é Snowflake em 3 frases.")
-#print(response.text)
-
-#for m in genai.list_models():
-#    print(m.name)
 import streamlit as st
 import google.generativeai as genai
 import requests
@@ -20,16 +9,7 @@ api_key = st.secrets["YOUTUBE_API_KEY"]
 # Configurar Gemini
 
 genai.configure(api_key=gemini_key) 
-#genai.configure(api_key="AIzaSyDz6PLA2Z1nT0-zuwZ-NehWFzU3pX7OMt0")
 model = genai.GenerativeModel("gemini-1.5-flash")
-
-# Configurar SerpAPI
-#SERP_API_KEY = "SERP_API_KEY"
-#SERP_API_KEY = "19d8eb43b1f35459653abe2248c3788d0a2fd3274587b3d92c7bc137724b5b10"
-
-# Configurar YouTube API
-#api_key = "AIzaSyDz6PLA2Z1nT0-zuwZ-NehWFzU3pX7OMt0"
-
 
 # Funções de busca
 def buscar_links_serpapi(consulta):
@@ -117,7 +97,3 @@ for autor, mensagem in st.session_state.chat_history:
         st.markdown(f"**👤 Você:** {mensagem}")
     else:
         st.markdown(f"**🤖 Bot:** {mensagem}")
-
-
-        
-        
