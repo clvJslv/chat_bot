@@ -1,7 +1,6 @@
 import streamlit as st
 import pyodbc
 
-
 # Função de conexão
 def conectar_banco():
     try:
@@ -9,8 +8,8 @@ def conectar_banco():
             "DRIVER={ODBC Driver 17 for SQL Server};"
             "SERVER=myfreesqldbserver-0101.database.windows.net;"
             "DATABASE=myFreeDB;"
-            "UID=ivan;"  # substitua pelo seu usuário real
-            "PWD=MigMat01#!;"  # substitua pela sua senha real
+            "UID=ivan;"
+            "PWD=MigMat01#!;"
             "Encrypt=yes;"
             "TrustServerCertificate=no;"
             "Connection Timeout=30;"
@@ -20,11 +19,35 @@ def conectar_banco():
         st.error(f"❌ Erro ao conectar: {erro}")
         return None
 
-# Função para gerar um único INSERT fixo
-def gerar_insert_fixo():
-    sql = "INSERT INTO [dbo].[SimuladoPerguntas] ([pergunta], [FK_MODULO]) VALUES ('quem descobriu o brasil', 1000);"
-    return sql
+# Executando dentro do Streamlit
+def executar_insert():
+    conexao = conectar_banco()
+    if conexao:
+        try:
+            cursor = conexao.cursor()
+            sql = "INSERT INTO [dbo].[SimuladoPerguntas] ([id], [pergunta], [FK_MODULO]) VALUES (100, 'quem descobriu o brasil', 1000);"
+            cursor.execute(sql)
+            conexao.commit()
+            st.success("✅ INSERT executado com sucesso!")
 
+            # Verificando se foi inserido
+            cursor.execute("SELECT * FROM [dbo].[SimuladoPerguntas] WHERE id = 100")
+            resultado = cursor.fetchone()
+            if resultado:
+                st.write("📌 Resultado do SELECT:")
+                st.write(resultado)
+            else:
+                st.warning("⚠️ Nenhum registro encontrado com id = 100")
+
+        except Exception as erro:
+            st.error(f"❌ Erro ao executar SQL: {erro}")
+        finally:
+            cursor.close()
+            conexao.close()
+
+# Botão para executar
+if st.button("Executar INSERT"):
+    executar_insert()
    
 # Interface Streamlit
 st.set_page_config(page_title="Conexão com Banco", page_icon="🗄️", layout="centered")
