@@ -77,27 +77,27 @@ for r in respostas:
                 st.success("Resposta excluída com sucesso.")
                 st.rerun()
 
-# ➕ Formulário de inserção/edição
-st.subheader("➕ Adicionar ou Editar Resposta")
-with st.form("form_resposta"):
-    id_edicao = st.session_state.get("edit_id", None)
-    texto = st.text_input("Texto da Resposta", value=st.session_state.get("edit_texto", ""))
-    correta = st.checkbox("É a resposta correta?", value=st.session_state.get("edit_correta", False))
-    enviar = st.form_submit_button("💾 Salvar")
+# ➕ Formulário de inserção de múltiplas respostas
+st.subheader("➕ Adicionar 4 Respostas para a Pergunta Selecionada")
+
+with st.form("form_respostas_multiplas"):
+    respostas = []
+    for i in range(1, 5):
+        st.markdown(f"**Resposta {i}**")
+        texto = st.text_input(f"Texto da Resposta {i}", key=f"texto_{i}")
+        correta = st.checkbox("É a resposta correta?", key=f"correta_{i}")
+        respostas.append({"texto": texto, "correta": correta})
+
+    enviar = st.form_submit_button("💾 Salvar todas")
 
 if enviar:
-    if not texto.strip():
-        st.warning("⚠️ O texto da resposta não pode estar vazio.")
+    erros = [r for r in respostas if not r["texto"].strip()]
+    if erros:
+        st.warning("⚠️ Todas as respostas devem ter texto preenchido.")
     else:
-        if id_edicao:
-            db.update_resposta(id_edicao, texto, pergunta_id, correta)
-            st.success("✅ Resposta atualizada com sucesso!")
-            st.session_state["edit_id"] = None
-        else:
-            db.insert_resposta(texto, pergunta_id, correta)
-            st.success("✅ Resposta adicionada com sucesso!")
-        st.session_state["edit_texto"] = ""
-        st.session_state["edit_correta"] = False
+        for r in respostas:
+            db.insert_resposta(r["texto"], pergunta_id, r["correta"])
+        st.success("✅ 4 respostas foram adicionadas com sucesso!")
         st.rerun()
 
 db.close()
