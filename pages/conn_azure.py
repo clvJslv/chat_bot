@@ -39,10 +39,28 @@ if st.button("🔌 Conectar ao Banco"):
                 st.subheader("📂 Tabelas encontradas:")
                 for tabela in tabelas:
                     st.markdown(f"- **{tabela.name}**")
+
+                # Geração de INSERTs para SimuladoPerguntas
+                st.subheader("📝 Gerar INSERTs da tabela SimuladoPerguntas")
+                cursor.execute("SELECT TOP 10 [id], [pergunta], [FK_MODULO] FROM [dbo].[SimuladoPerguntas]")
+                registros = cursor.fetchall()
+
+                if registros:
+                    inserts = []
+                    for linha in registros:
+                        id = linha.id
+                        pergunta = linha.pergunta.replace("'", "''")  # Escapar aspas simples
+                        fk = linha.FK_MODULO
+                        sql = f"INSERT INTO [dbo].[SimuladoPerguntas] ([id], [pergunta], [FK_MODULO]) VALUES ({id}, '{pergunta}', {fk});"
+                        inserts.append(sql)
+
+                    st.code("\n".join(inserts), language="sql")
+                else:
+                    st.info("Nenhum registro encontrado na tabela SimuladoPerguntas.")
             else:
                 st.info("Nenhuma tabela encontrada no banco.")
         except Exception as erro:
-            st.error(f"Erro ao buscar tabelas: {erro}")
+            st.error(f"Erro ao buscar dados: {erro}")
         finally:
             conexao.close()
     else:
