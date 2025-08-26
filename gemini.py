@@ -12,7 +12,7 @@ st.markdown("""
     <style>
     /* Estilo da barra lateral */
     [data-testid="stSidebar"] {
-        font-size: 18px;
+        font-size: 20px;
         font-family: 'Nunito', sans-serif;
         color: #333333;
         background-color: #f5f5f5;
