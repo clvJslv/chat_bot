@@ -86,7 +86,8 @@ st.subheader("➕ Adicionar ou Editar Pergunta")
 with st.form("form_crud"):
     id_edicao = st.session_state.get("edit_id", None)
     pergunta_input = st.text_area("Pergunta", value=st.session_state.get("edit_pergunta", ""))
-    modulo_input = st.number_input("Módulo", min_value=1, step=1, value=st.session_state.get("edit_modulo", 1))
+    modulo_input = st.text_area("Descrição da Pergunta", value=st.session_state.get("edit_modulo", ""))
+    
     enviar = st.form_submit_button("💾 Salvar")
 
 if enviar:
@@ -101,7 +102,7 @@ if enviar:
             db.insert_pergunta(pergunta_input, modulo_input)
             st.success("✅ Pergunta adicionada com sucesso!")
         st.session_state["edit_pergunta"] = ""
-        st.session_state["edit_modulo"] = 1
+        st.session_state["edit_modulo"] = ""
         st.rerun()
 
 # 🔒 Encerrando conexão
