@@ -90,9 +90,6 @@ def executar_insert():
             cursor.close()
             conexao.close()
 
-# Botão para executar
-if st.button("Executar INSERT"):
-    executar_insert()
    
 # Interface Streamlit
 st.set_page_config(page_title="Conexão com Banco", page_icon="🗄️", layout="centered")
@@ -115,11 +112,7 @@ if st.button("🔌 Conectar ao Banco"):
                 for tabela in tabelas:
                     st.markdown(f"- **{tabela.name}**")
 
-                # Geração de INSERT fixo
-                st.subheader("🧪 Gerar um único INSERT fixo para SimuladoPerguntas")
-                if st.button("📌 Gerar INSERT fixo"):
-                    insert_sql = gerar_insert_fixo()
-                    st.code(insert_sql, language="sql")
+                
             else:
                 st.info("Nenhuma tabela encontrada no banco.")
         except Exception as erro:
