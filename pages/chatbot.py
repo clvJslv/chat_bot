@@ -2,16 +2,16 @@ import streamlit as st
 import google.generativeai as genai
 import requests
 
+# Obtendo KEYS SECRETS
 gemini_key = st.secrets["GEMINI_API_KEY"]
 SERP_API_KEY = st.secrets["SERP_API_KEYS"]
 api_key = st.secrets["YOUTUBE_API_KEY"]
 
 # Configurar Gemini
-
 genai.configure(api_key=gemini_key) 
 model = genai.GenerativeModel("gemini-1.5-flash")
 
-# Funções de busca
+# Funções de busca Links
 def buscar_links_serpapi(consulta):
     url = "https://serpapi.com/search"
     params = {
@@ -31,13 +31,14 @@ def buscar_links_serpapi(consulta):
             resultados.append((titulo, link))
     return resultados
 
+# Funções de busca Vídeos
 def buscar_videos_youtube(consulta):
     url = "https://www.googleapis.com/youtube/v3/search"
     params = {
         "part": "snippet",
         "q": consulta,
         "type": "video",
-        "maxResults": 3,
+        "maxResults": 5,
         "key": api_key
     }
     response = requests.get(url, params=params)
@@ -55,11 +56,12 @@ if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
 # Interface
+# Botão para limpar chat
 st.title("💬 Chatbot Inteligente com Links e Vídeos")
 if st.button("🧹 Limpar conversa"):
     st.session_state.chat_history = []
     st.rerun()
-
+# Caixa para digitar pergunta
 user_input = st.text_input("Você:", key="input")
 
 if user_input:
@@ -78,18 +80,18 @@ if user_input:
 
     # Adicionar sugestões ao histórico
     if links:
-        st.session_state.chat_history.append(("bot", "🔗 Aqui estão alguns links úteis:"))
+        st.session_state.chat_history.append(("bot_links", "🔗 Aqui estão alguns links úteis:"))
         for titulo, url in links:
-            st.session_state.chat_history.append(("bot", f"[{titulo}]({url})"))
+            st.session_state.chat_history.append(("bot_links", f"[{titulo}]({url})"))
     else:
-        st.session_state.chat_history.append(("bot", "⚠️ Nenhum link encontrado."))
+        st.session_state.chat_history.append(("bot_links", "⚠️ Nenhum link encontrado."))
 
     if videos:
-        st.session_state.chat_history.append(("bot", "🎥 Vídeos relacionados:"))
+        st.session_state.chat_history.append(("bot_videos", "🎥 Vídeos relacionados:"))
         for titulo, url in videos:
-            st.session_state.chat_history.append(("bot", f"[{titulo}]({url})"))
+            st.session_state.chat_history.append(("bot_videos", f"[{titulo}]({url})"))
     else:
-        st.session_state.chat_history.append(("bot", "⚠️ Nenhum vídeo encontrado."))
+        st.session_state.chat_history.append(("bot_videos", "⚠️ Nenhum vídeo encontrado."))
 
 # Exibir histórico de conversa
 for autor, mensagem in st.session_state.chat_history:
