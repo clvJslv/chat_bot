@@ -29,9 +29,17 @@ st.markdown("""
 with st.sidebar:
     st.markdown("## 🧭 Navegação")
     if st.button("🤖 Ir para Chatbot"):
-        st.switch_page("pages/chatbot.py")
+        st.switch_page("app/chatbot.py")
+    if st.button("🤖 Ir para Cadastrar_Questões"):
+        st.switch_page("app/Cadastrar_Questões.py")
+    if st.button("🤖 Ir para Gerar_Simulado"):
+        st.switch_page("app/Gerar_Simulado.py")
+    if st.button("🤖 Ir para conn_azure"):
+        st.switch_page("app/conn_azure.py")
+    
     if st.button("🤖 Retornar"):
         st.switch_page("gemini.py")
+    
 
     st.markdown("---")
     st.markdown("## ⚙️ Configurações")
