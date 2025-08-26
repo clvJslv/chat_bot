@@ -91,8 +91,8 @@ else:
 st.subheader("➕ Adicionar ou Editar Pergunta")
 with st.form("form_crud"):
     id_edicao = st.session_state.get("edit_id", None)
-    codigo_input = st.text_input("Código da Pergunta", value=st.session_state.get("edit_codigo", ""))
-    descricao_input = st.text_area("Descrição da Pergunta", value=st.session_state.get("edit_descricao", ""))
+    codigo_input = st.text_input("Pergunta", value=st.session_state.get("edit_codigo", ""))
+    descricao_input = st.text_area("Texto", value=st.session_state.get("edit_descricao", ""))
     
     enviar = st.form_submit_button("💾 Salvar")
 
