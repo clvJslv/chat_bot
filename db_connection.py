@@ -73,24 +73,36 @@ class DatabaseConnection:
     def get_perguntas(self, filtro_modulo=None):
         cursor = self.conn.cursor()
         if filtro_modulo:
-            cursor.execute("SELECT PK_CO_PERGUNTA, CO_PERGUNTA,  DE_PERGUNTA FROM TB_007_PERGUNTAS WHERE PK_CO_PERGUNTA = ?", filtro_modulo)
+            cursor.execute(
+            "SELECT PK_CO_PERGUNTA, CO_PERGUNTA, DE_PERGUNTA FROM TB_007_PERGUNTAS WHERE PK_CO_PERGUNTA = ?",
+            filtro_modulo
+        )
         else:
-            cursor.execute("SELECT PK_CO_PERGUNTA, CO_PERGUNTA,  DE_PERGUNTA FROM TB_007_PERGUNTAS")
-        rows = cursor.fetchall()
+            cursor.execute("SELECT PK_CO_PERGUNTA, CO_PERGUNTA, DE_PERGUNTA FROM TB_007_PERGUNTAS")
+
+        columns = [column[0] for column in cursor.description]
+        rows = [dict(zip(columns, row)) for row in cursor.fetchall()]
         cursor.close()
         return rows
 
-    def insert_pergunta(self, pergunta, modulo):
+    def insert_pergunta(self, codigo, descricao):
         cursor = self.conn.cursor()
-        cursor.execute("INSERT INTO TB_007_PERGUNTAS (CO_PERGUNTA, DE_PERGUNTA) VALUES (?, ?)", pergunta, modulo)
+        cursor.execute(
+        "INSERT INTO TB_007_PERGUNTAS (CO_PERGUNTA, DE_PERGUNTA) VALUES (?, ?)",
+        codigo, descricao
+    )
         self.conn.commit()
         cursor.close()
 
-    def update_pergunta(self, id, pergunta, modulo):
+    def update_pergunta(self, id, codigo, descricao):
         cursor = self.conn.cursor()
-        cursor.execute("UPDATE TB_007_PERGUNTAS SET CO_PERGUNTA = ?, DE_PERGUNTA = ? WHERE PK_CO_PERGUNTA = ?", pergunta, modulo, id)
+        cursor.execute(
+        "UPDATE TB_007_PERGUNTAS SET CO_PERGUNTA = ?, DE_PERGUNTA = ? WHERE PK_CO_PERGUNTA = ?",
+        codigo, descricao, id
+    )
         self.conn.commit()
         cursor.close()
+
 
     def delete_pergunta(self, id):
         cursor = self.conn.cursor()
