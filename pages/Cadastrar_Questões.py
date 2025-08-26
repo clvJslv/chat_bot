@@ -63,20 +63,22 @@ else:
 # 📋 Visualização das perguntas
 st.subheader("📋 Perguntas cadastradas")
 
+st.subheader("📋 Perguntas cadastradas")
+
 if perguntas and len(perguntas) > 0:
     for row in perguntas:
-        with st.expander(f"ID {row.id} - Módulo {row.FK_MODULO}"):
-            st.write(row.pergunta)
+        with st.expander(f"ID {row['PK_CO_PERGUNTA']} - Módulo {row['FK_MODULO']}"):
+            st.write(row['DE_PERGUNTA'])
             col1, col2 = st.columns(2)
             with col1:
-                if st.button(f"✏️ Editar {row.id}", key=f"editar_{row.id}"):
-                    st.session_state["edit_id"] = row.id
-                    st.session_state["edit_pergunta"] = row.pergunta
-                    st.session_state["edit_modulo"] = row.FK_MODULO
+                if st.button(f"✏️ Editar {row['PK_CO_PERGUNTA']}", key=f"editar_{row['PK_CO_PERGUNTA']}"):
+                    st.session_state["edit_id"] = row['PK_CO_PERGUNTA']
+                    st.session_state["edit_pergunta"] = row['DE_PERGUNTA']
+                    st.session_state["edit_modulo"] = row['FK_MODULO']
             with col2:
-                if st.button(f"❌ Excluir {row.id}", key=f"excluir_{row.id}"):
-                    db.delete_pergunta(row.id)
-                    st.success(f"Pergunta {row.id} excluída.")
+                if st.button(f"❌ Excluir {row['PK_CO_PERGUNTA']}", key=f"excluir_{row['PK_CO_PERGUNTA']}"):
+                    db.delete_pergunta(row['PK_CO_PERGUNTA'])
+                    st.success(f"Pergunta {row['PK_CO_PERGUNTA']} excluída.")
                     st.rerun()
 else:
     st.warning("⚠️ Nenhuma pergunta encontrada para o filtro atual.")
