@@ -19,11 +19,29 @@ def conectar_banco():
     except Exception as erro:
         st.error(f"❌ Erro ao conectar: {erro}")
         return None
+
+# Estilização da barra lateral
+st.markdown("""
+    <style>
+        [data-testid="stSidebar"] {
+            background-color: #1f2937;
+            color: white;
+        }
+        [data-testid="stSidebar"] h2 {
+            color: #10b981;
+        }
+        [data-testid="stSidebar"] .stButton button {
+            background-color: #10b981;
+            color: white;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
 # Barra lateral personalizada
 with st.sidebar:
     st.markdown("## 🧭 Navegação")
     if st.button("🤖 Ir para Chatbot"):
-        st.switch_page("app/chatbot.py")
+        st.switch_page("/chatbot.py")
     if st.button("🤖 Ir para Cadastrar_Questões"):
         st.switch_page("app/Cadastrar_Questões.py")
     if st.button("🤖 Ir para Gerar_Simulado"):
