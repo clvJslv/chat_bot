@@ -53,7 +53,7 @@ if "usuario" in st.session_state:
     with st.sidebar:
         st.markdown("## 🧭 Navegação")
         if st.button("🎓   Chatbot", key="btn_chatbot"):
-            st.switch_page("Chatbot")
+            st.switch_page("pages/Chatbot")
         if st.button("🖥️   Gerar Simulado", key="btn_simulado"):
             st.switch_page("Gerar Simulado")
         if st.button("✅   Teste de Conexão", key="btn_azure"):
