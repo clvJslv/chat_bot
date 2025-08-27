@@ -7,7 +7,7 @@
 }
 [data-testid="stSidebar"] .stButton button {
     background-color: #10b981;
-    color: white;
+    color: rgb(11, 0, 0);
     border: none;
     border-radius: 8px;
     padding: 10px 20px;
