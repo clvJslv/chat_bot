@@ -16,10 +16,6 @@ if not db.conn:
     st.error("❌ Conexão com o banco falhou.")
     st.stop()
 
-# Login
-st.title("🔐 Portal de Autenticação")
-usuario = st.text_input("Usuário")
-senha = st.text_input("Senha", type="password")
 # Estilização da barra lateral
 st.markdown("""
     <style>
@@ -62,22 +58,58 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# Estilo personalizado
+st.markdown("""
+    <style>
+        .login-box {
+            background-color: #1f2937;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            max-width: 400px;
+            margin: auto;
+            color: white;
+        }
+        .login-title {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #10b981;
+        }
+    </style>
+""", unsafe_allow_html=True)
 
-if st.button("Entrar"):
-    perfil = db.autenticar_usuario(usuario, senha)
-    if perfil:
-        st.success(f"Bem-vindo, {usuario} ({perfil})")
-        st.session_state.perfil = perfil
-        st.session_state.usuario = usuario
-    else:
-        st.error("Usuário ou senha inválidos")
-    
-# Verifica se o usuário está logado
+# Se o usuário já estiver logado
+if "perfil" in st.session_state:
+    st.markdown("<div class='login-box'>", unsafe_allow_html=True)
+    st.markdown(f"<div class='login-title'>Bem-vindo, {st.session_state.usuario}</div>", unsafe_allow_html=True)
+    st.success(f"Perfil: {st.session_state.perfil}")
     if st.button("🚪  Logout"):
-        # Limpa a sessão
-        st.session_state.clear()
-        st.success("Logout realizado com sucesso!")
-        st.rerun()  # Recarrega a página
+        del st.session_state["perfil"]
+        del st.session_state["usuario"]
+        st.experimental_rerun()
+    st.markdown("</div>", unsafe_allow_html=True)
+
+# Tela de login
+else:
+    st.markdown("<div class='login-box'>", unsafe_allow_html=True)
+    st.markdown("<div class='login-title'>Login</div>", unsafe_allow_html=True)
+
+    usuario = st.text_input("Usuário")
+    senha = st.text_input("Senha", type="password")
+
+    if st.button("Entrar"):
+        perfil = db.autenticar_usuario(usuario, senha)
+        if perfil:
+            st.session_state.perfil = perfil
+            st.session_state.usuario = usuario
+            st.success("Login realizado com sucesso!")
+            st.experimental_rerun()
+        else:
+            st.error("Usuário ou senha inválidos.")
+
+    st.markdown("</div>", unsafe_allow_html=True)
+
 
 # Menu lateral
 if "perfil" in st.session_state:
