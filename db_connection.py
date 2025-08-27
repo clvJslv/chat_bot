@@ -175,3 +175,84 @@ class DatabaseConnection:
             return f"erro: {str(e)}"
         finally:
             cursor.close()
+    
+    def get_modulos(self):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT id, nome FROM TB_011_MODULOS")
+        modulos = [{"id": row[0], "nome": row[1]} for row in cursor.fetchall()]
+        cursor.close()
+        return modulos
+
+    def get_acessos_usuario(self, usuario_id):
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            SELECT modulo_id FROM TB_012_ACESSOS
+            WHERE usuario_id = ? AND permitido = 1
+        """, (usuario_id,))
+        acessos = [row[0] for row in cursor.fetchall()]
+        cursor.close()
+        return acessos
+
+    def set_acesso(self, usuario_id, modulo_id, permitido):
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            MERGE TB_012_ACESSOS AS target
+            USING (SELECT ? AS usuario_id, ? AS modulo_id) AS source
+            ON target.usuario_id = source.usuario_id AND target.modulo_id = source.modulo_id
+            WHEN MATCHED THEN
+                UPDATE SET permitido = ?
+            WHEN NOT MATCHED THEN
+                INSERT (usuario_id, modulo_id, permitido)
+                VALUES (?, ?, ?);
+        """, (usuario_id, modulo_id, permitido, usuario_id, modulo_id, permitido))
+        self.conn.commit()
+        cursor.close()
+        
+    def usuario_tem_acesso(self, usuario_id, nome_modulo):
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            SELECT COUNT(*) FROM TB_012_ACESSOS A
+            JOIN TB_011_MODULOS M ON A.modulo_id = M.id
+            WHERE A.usuario_id = ? AND M.nome = ? AND A.permitido = 1
+        """, (usuario_id, nome_modulo))
+        resultado = cursor.fetchone()[0]
+        cursor.close()
+        return resultado > 0
+    def get_usuarios(self):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT id, usuario FROM TB_010_USUARIOS ORDER BY usuario")
+        usuarios = [{"id": row[0], "usuario": row[1]} for row in cursor.fetchall()]
+        cursor.close()
+        return usuarios
+
+    def get_modulos(self):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT id, nome FROM TB_011_MODULOS ORDER BY nome")
+        modulos = [{"id": row[0], "nome": row[1]} for row in cursor.fetchall()]
+        cursor.close()
+        return modulos
+
+    def get_acessos_usuario(self, usuario_id):
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            SELECT modulo_id FROM TB_012_ACESSOS
+            WHERE usuario_id = ? AND permitido = 1
+        """, (usuario_id,))
+        acessos = [row[0] for row in cursor.fetchall()]
+        cursor.close()
+        return acessos
+
+    def set_acesso(self, usuario_id, modulo_id, permitido):
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            MERGE TB_012_ACESSOS AS target
+            USING (SELECT ? AS usuario_id, ? AS modulo_id) AS source
+            ON target.usuario_id = source.usuario_id AND target.modulo_id = source.modulo_id
+            WHEN MATCHED THEN
+                UPDATE SET permitido = ?
+            WHEN NOT MATCHED THEN
+                INSERT (usuario_id, modulo_id, permitido)
+                VALUES (?, ?, ?);
+        """, (usuario_id, modulo_id, permitido, usuario_id, modulo_id, permitido))
+        self.conn.commit()
+        cursor.close()
