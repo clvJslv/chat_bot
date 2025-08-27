@@ -82,7 +82,7 @@ st.markdown("""
 # Se o usuário já estiver logado
 if "perfil" in st.session_state:
     #st.markdown("<div class='login-box'>", unsafe_allow_html=True)
-    st.markdown(f"<div class='login-title'>Bem-vindo, {st.session_state.usuario}</div>", unsafe_allow_html=True)
+    #st.markdown(f"<div class='login-title'>Bem-vindo, {st.session_state.usuario}</div>", unsafe_allow_html=True)
     st.success(f"Perfil: {st.session_state.perfil}")
     if st.button("🚪  Logout"):
         del st.session_state["perfil"]
@@ -119,7 +119,7 @@ else:
 """, unsafe_allow_html=True)
 
 # Layout
-    st.sidebar.markdown("---")
+    #st.sidebar.markdown("---")
     #st.markdown("<div class='login-title'>Login</div>", unsafe_allow_html=True)
 
 # Campos de entrada
@@ -181,5 +181,5 @@ with st.expander("ℹ️ Sobre este portal"):
         - 🐞 [Reportar falhas ou bugs](https://github.com/streamlit/streamlit/issues)
     """)
 
-st.divider()
+#st.divider()
 st.markdown("### 🧪 Bem-vindo ao APP Simulado assistido por IA")
