@@ -53,7 +53,7 @@ st.markdown("""
             border: 2px solid #3b82f6;
             border-radius: 6px;
             background-color: #f3f4f6;
-            color: #1f2937;
+            color: #111827;
         }
     </style>
 """, unsafe_allow_html=True)
