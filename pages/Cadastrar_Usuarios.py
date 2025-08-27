@@ -1,13 +1,12 @@
 import streamlit as st
-from database import DatabaseConnection
+from db_connection import DatabaseConnection
 
+# 🔧 Estilo personalizado
 with open("assets/style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-
-st.title("🚧 Página em Construção")
-st.image("em_construcao.jpg", caption="Estamos trabalhando nisso!", width=300)
-
-
+    
+    st.title("🔄 Cadastro ou Atualização de Usuário")
+    
 # Estilização da barra lateral
 st.markdown("""
     <style>
@@ -88,14 +87,9 @@ with st.sidebar:
             # Reinicia a aplicação
                 st.rerun()
 
-        with open("assets/style.css") as f:
-            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-
 # 🔌 Conexão com o banco
 db = DatabaseConnection()
 db.connect()
-
-st.title("🔄 Cadastro ou Atualização de Usuário")
 
 with st.form("form_usuario"):
     usuario = st.text_input("👤 Nome de usuário")

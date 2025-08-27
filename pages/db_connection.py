@@ -128,6 +128,7 @@ class DatabaseConnection:
         except Exception as e:
             print(f"Erro ao listar usuários: {e}")
             return []
+    
     def merge_usuario(self, usuario, senha, perfil):
         cursor = self.conn.cursor()
         try:
