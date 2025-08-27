@@ -92,7 +92,7 @@ if "perfil" in st.session_state:
 
 # Tela de login
 else:
-    st.markdown("<div class='login-box'>", unsafe_allow_html=True)
+    #st.markdown("<div class='login-box'>", unsafe_allow_html=True)
     st.markdown("<div class='login-title'>Login</div>", unsafe_allow_html=True)
 
     usuario = st.text_input("Usuário")
