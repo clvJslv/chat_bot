@@ -39,6 +39,6 @@ if st.button("Entrar"):
         st.session_state.perfil = perfil
         st.session_state.usuario = usuario
         st.success("✅ Login realizado com sucesso!")
-        st.switch_page("pages/gemini.py")  # redireciona para a página principal
+        st.switch_page("gemini.py")  # redireciona para a página principal
     else:
         st.error("❌ Usuário ou senha inválidos.")
