@@ -22,6 +22,7 @@ st.markdown("""
            padding: 20px;
            border-radius: 10px;
         }
+       
         [data-testid="stSidebar"] {
            height: 100vh;
         overflow-y: auto;
