@@ -66,11 +66,6 @@ with st.sidebar:
         st.markdown("---")
     
     st.markdown("---")
-    st.markdown("## ⚙️ Configurações")
-    st.selectbox("Modo de exibição", ["Claro", "Escuro", "Automático"], key="modo_exibicao")
-    st.slider("Sensibilidade do modelo", 0.0, 1.0, 0.5, key="sensibilidade")
-
-    st.markdown("---")
     st.markdown("### 📞 Suporte")
     st.write("Email: suporte@meuapp.com")
 
