@@ -49,11 +49,11 @@ st.markdown("""
 # 🧭 Barra lateral personalizada
 with st.sidebar:
     st.markdown("## 🧭 Navegação")
-    if st.button("🤖 Ir para Chatbot         ", key="btn_chatbot"):
+    if st.button("🤖  Chatbot         ", key="btn_chatbot"):
        st.switch_page("pages/chatbot.py")
-    if st.button("🤖 Ir para Gerar_Simulado", key="btn_simulado"):
+    if st.button("🤖 Gerar_Simulado", key="btn_simulado"):
         st.switch_page("pages/Gerar_Simulado.py")
-    if st.button("🤖 Ir para conn_azure", key="btn_azure"):
+    if st.button("🤖 conn_azure", key="btn_azure"):
         st.switch_page("pages/conn_azure.py")
     if st.button("🤖 Retornar", key="btn_retornar"):
         st.switch_page("gemini.py")
