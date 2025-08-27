@@ -108,7 +108,7 @@ else:
         else:
             st.error("Usuário ou senha inválidos.")
 
-    st.markdown("</div>", unsafe_allow_html=True)
+    #st.markdown("</div>", unsafe_allow_html=True)
 
 
 # Menu lateral
