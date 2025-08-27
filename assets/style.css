@@ -3,19 +3,19 @@
     color: white;
 }
 [data-testid="stSidebar"] h2 {
-    color: #10b981;
+    color: #0c0d0d29;
 }
 [data-testid="stSidebar"] .stButton button {
-    background-color: #10b981;
+    background-color: #00000024;
     color: rgb(11, 0, 0);
     border: none;
     border-radius: 8px;
     padding: 10px 20px;
     font-size: 16px;
-     font-weight: bold;
-     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-     cursor: pointer;
-     transition: background-color 0.3s ease-in-out;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
 }
 
 /* Esconde o nome da página na sidebar */
