@@ -34,6 +34,8 @@ st.markdown("""
         [data-testid="stSidebar"] .stButton button {
            background-color: #0000004c;
            color: rgba(245, 245, 245, 0.849);
+           width: 200px;
+           height: 40px;
            border: none;
            border-radius: 8px;
            padding: 3px 5px;
