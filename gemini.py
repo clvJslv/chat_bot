@@ -57,19 +57,19 @@ st.markdown("""
 # 🧭 Barra lateral personalizada
 with st.sidebar:
     st.markdown("## 🧭 Navegação")
-    if st.button("🤖   Chatbot", key="btn_chatbot"):
+    if st.button("   Chatbot", key="btn_chatbot"):
        st.switch_page("pages/chatbot.py")
-    if st.button("🤖   Gerar Simulado", key="btn_simulado"):
+    if st.button("   Gerar Simulado", key="btn_simulado"):
         st.switch_page("pages/Gerar_Simulado.py")
-    if st.button("🤖   Teste de Conexão", key="btn_azure"):
+    if st.button("   Teste de Conexão", key="btn_azure"):
         st.switch_page("pages/conn_azure.py")
-    if st.button("🤖   Retornar", key="btn_retornar"):
+    if st.button("   Retornar", key="btn_retornar"):
         st.switch_page("gemini.py")
     st.markdown("---")
     st.markdown("## ⚙️   Cadastro")
-    if st.button("🤖   Questões", key="btn_cadastrar"):
+    if st.button("   Questões", key="btn_cadastrar"):
         st.switch_page("pages/Cadastrar_Questões.py")
-    if st.button("🤖   Respostas", key="btn_cadastrar_respostas"):
+    if st.button("   Respostas", key="btn_cadastrar_respostas"):
         st.switch_page("pages/Cadastrar_Respostas.py")
         st.markdown("---")
     
@@ -88,7 +88,9 @@ st.markdown(
 with st.expander("ℹ️ Sobre este portal"):
     st.markdown(
         """
-        Este é um hub de aplicativos de rede neural baseados em **YOLO (You Only Look Once)** para detecção de objetos e rostos em tempo real.
+        Este um aplicativo de que utiliza IA com consultas ao chatbot (GEMINI) para gerar simulados de acordo com descritores 
+        e apresentando sugestões de conteúdo para estudo das questões respondidas de forma errada.
+        
 
         - 📚 [Documentação oficial do Streamlit](https://docs.streamlit.io/)
         - 🐞 [Reportar falhas ou bugs](https://github.com/streamlit/streamlit/issues)
@@ -96,4 +98,4 @@ with st.expander("ℹ️ Sobre este portal"):
     )
 
 st.divider()
-st.markdown("### 🧪 Escolha um aplicativo na barra lateral para começar.")
+st.markdown("### 🧪 BeM vindo ao APP Simulado assistido por IA")
