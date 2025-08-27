@@ -36,7 +36,7 @@ st.markdown("""
            color: rgba(245, 245, 245, 0.849);
            text-align: left;
            padding-left: 12px;
-           width: 300px;
+           width: 210px;
            height: 40px;
            border: none;
            border-radius: 8px;
