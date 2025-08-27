@@ -54,16 +54,10 @@ if "usuario" not in st.session_state:
                     st.error("❌ Usuário ou senha inválidos.")
 
 # Conteúdo após login
-
-
 # 🔧 Estilo personalizado
 if "usuario" in st.session_state:
 
-    with open("assets/style.css") as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-
-        st.set_page_config(page_title="📚 CRUD Simulado", layout="wide")
-        st.title("📚 Gerenciador de Perguntas do Simulado")
+   
 
 # Estilização da barra lateral
         st.markdown("""
@@ -130,4 +124,8 @@ with st.sidebar:
     st.markdown("### 📞   Suporte")
     st.write("Email: suporte@meuapp.com")
 
-   
+    with open("assets/style.css") as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+        st.set_page_config(page_title="📚 CRUD Simulado", layout="wide")
+        st.title("📚 Gerenciador de Perguntas do Simulado")
