@@ -34,18 +34,23 @@ st.markdown("""
         [data-testid="stSidebar"] .stButton button {
            background-color: #0000004c;
            color: rgba(245, 245, 245, 0.849);
+           
            text-align: left;
            padding-left: 12px;
            width: 240px;
            height: 40px;
            border: none;
            border-radius: 8px;
-           padding: 3px 5px;
            font-size: 16px;
            font-weight: bold;
            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
            cursor: pointer;
            transition: background-color 0.3s ease-in-out;
+           display: flex;
+           justify-content: flex-start;   /* Alinha conteúdo à esquerda */
+           align-items: center;           /* Centraliza verticalmente */
+           padding-left: 12px;            /* Espaço interno à esquerda */
+           text-align: left;              /* Redundante, mas seguro */
         }
     </style>
 """, unsafe_allow_html=True)
