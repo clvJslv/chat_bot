@@ -120,54 +120,38 @@ if "usuario" in st.session_state:
             👋 Olá, **{st.session_state.usuario}**  
             🔐 Perfil: **{st.session_state.perfil}**
             """)
-
-            st.markdown("## 🧭 Navegação")
-
-            usuario_id = st.session_state.get("usuario_id")  # você precisa salvar isso na sessão após login
-            db = DatabaseConnection()
-            db.connect()
-
-            if db.usuario_tem_acesso(usuario_id, "Chatbot"):
-                if st.button("🎓   Chatbot", key="btn_chatbot"):
-                    st.switch_page("pages/chatbot.py")
-
-            if db.usuario_tem_acesso(usuario_id, "Gerar Simulado"):
-                if st.button("🖥️   Gerar Simulado", key="btn_simulado"):
-                    st.switch_page("pages/Gerar_Simulado.py")
-
-            if db.usuario_tem_acesso(usuario_id, "Teste de Conexão"):
-                if st.button("✅   Teste de Conexão", key="btn_azure"):
-                    st.switch_page("pages/conn_azure.py")
-
-            if db.usuario_tem_acesso(usuario_id, "Retornar"):
-                if st.button("↩️   Retornar", key="btn_retornar"):
-                    st.switch_page("gemini.py")
-
-            st.markdown("---")
-            st.markdown("## ⚙️   Cadastro")
-
-            if db.usuario_tem_acesso(usuario_id, "Questões"):
-                if st.button("🗂️   Questões", key="btn_cadastrar"):
-                    st.switch_page("pages/Cadastrar_Questões.py")
-
-            if db.usuario_tem_acesso(usuario_id, "Respostas"):
-                if st.button("🗂️   Respostas", key="btn_cadastrar_respostas"):
-                    st.switch_page("pages/Cadastrar_Respostas.py")
-
-            if db.usuario_tem_acesso(usuario_id, "Cadastrar Usuários"):
-                if st.button("🗂️   Cadastrar Usuários", key="btn_cadastrar_usuarios"):
-                    st.switch_page("pages/Cadastrar_Usuarios.py")
-
-            st.markdown("---")
-            st.markdown("### 📞   Suporte")
-            st.write("Email: suporte@meuapp.com")
-
-            if st.button("🚪 Sair"):
-                for key in ["usuario", "perfil", "usuario_id"]:
-                    st.session_state.pop(key, None)
+        st.markdown("## 🧭 Navegação")
+        if st.button("🎓   Chatbot", key="btn_chatbot"):
+            st.switch_page("pages/chatbot.py")
+        if st.button("🖥️   Gerar Simulado", key="btn_simulado"):
+            st.switch_page("pages/Gerar_Simulado.py")
+        if st.button("✅   Teste de Conexão", key="btn_azure"):
+            st.switch_page("pages/conn_azure.py")
+        if st.button("↩️   Retornar", key="btn_retornar"):
+            st.switch_page("gemini.py")
+        st.markdown("---")
+        st.markdown("## ⚙️   Cadastro")
+        if st.button("🗂️   Questões", key="btn_cadastrar"):
+            st.switch_page("pages/Cadastrar_Questões.py")
+        if st.button("🗂️   Respostas", key="btn_cadastrar_respostas"):
+            st.switch_page("pages/Cadastrar_Respostas.py")
+        if st.button("🗂️   Cadastrar Usuários", key="btn_cadastrar_usuarios"):
+            st.switch_page("pages/Cadastrar_Usuarios.py")
+        if st.button("🗂️   Matriz de Acesso", key="btn_matriz"):
+            st.switch_page("pages/acesso.py")
+        
+        st.markdown("---")
+        st.markdown("### 📞   Suporte")
+        st.write("Email: suporte@meuapp.com")
+        
+        
+        # Botão para sair
+        if st.button("🚪 Sair"):
+            # Remove dados de sessão
+            for key in ["usuario", "perfil"]:
+                st.session_state.pop(key, None)
+            # Reinicia a aplicação
                 st.rerun()
-
-            db.close()
 
         with open("assets/style.css") as f:
             st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
