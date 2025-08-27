@@ -16,7 +16,7 @@ st.set_page_config(
 st.markdown("""
     <style>
         [data-testid="stSidebar"] {
-           background: linear-gradient(#0000004c, #06080075, #000000);
+           background: linear-gradient( #000000, #0000004c, #06080075);
            color: white;
            box-shadow: 0 0 10px rgba(0,0,0,0.5);
            padding: 20px;
