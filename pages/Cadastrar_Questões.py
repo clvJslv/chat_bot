@@ -9,6 +9,71 @@ with open("assets/style.css") as f:
 st.set_page_config(page_title="📚 CRUD Simulado", layout="wide")
 st.title("📚 Gerenciador de Perguntas do Simulado")
 
+# 🔌 Conexão com o banco
+db = DatabaseConnection()
+db.connect()
+
+# 🔍 Filtro por módulo
+modulo_filtro = st.sidebar.number_input("🔎 Filtrar por módulo", min_value=0, step=1, key="modulo_filtro")
+if modulo_filtro > 0:
+    perguntas = db.get_perguntas(modulo_filtro)
+else:
+    perguntas = db.get_perguntas()
+
+# 📋 Visualização das perguntas
+st.subheader("📋 Perguntas cadastradas")
+
+if perguntas and len(perguntas) > 0:
+   for row in perguntas:
+    codigo = row['CO_PERGUNTA']
+    descricao = row['DE_PERGUNTA']
+
+    codigo_formatado = codigo.strip() if codigo else "Sem código"
+    descricao_formatada = descricao.strip() if descricao else "Sem descrição"
+
+    with st.expander(f"ID {row['PK_CO_PERGUNTA']} - Código {codigo_formatado}"):
+        st.write(descricao_formatada)
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button(f"✏️ Editar {row['PK_CO_PERGUNTA']}", key=f"editar_{row['PK_CO_PERGUNTA']}"):
+                st.session_state["edit_id"] = row['PK_CO_PERGUNTA']
+                st.session_state["edit_codigo"] = codigo_formatado
+                st.session_state["edit_descricao"] = descricao_formatada
+        with col2:
+            if st.button(f"❌ Excluir {row['PK_CO_PERGUNTA']}", key=f"excluir_{row['PK_CO_PERGUNTA']}"):
+                db.delete_pergunta(row['PK_CO_PERGUNTA'])
+                st.success(f"Pergunta {row['PK_CO_PERGUNTA']} excluída.")
+                st.rerun()
+else:
+    st.warning("⚠️ Nenhuma pergunta encontrada para o filtro atual.")
+
+# ➕ Formulário de edição/inserção
+st.subheader("➕ Adicionar ou Editar Pergunta")
+with st.form("form_crud"):
+    id_edicao = st.session_state.get("edit_id", None)
+    codigo_input = st.text_input("Pergunta", value=st.session_state.get("edit_codigo", ""))
+    descricao_input = st.text_area("Texto", value=st.session_state.get("edit_descricao", ""))
+    
+    enviar = st.form_submit_button("💾 Salvar")
+
+if enviar:
+    if not codigo_input.strip() or not descricao_input.strip():
+        st.warning("⚠️ Código e descrição não podem estar vazios.")
+    else:
+        if id_edicao:
+            db.update_pergunta(id_edicao, codigo_input, descricao_input)
+            st.success("✅ Pergunta atualizada com sucesso!")
+            st.session_state["edit_id"] = None
+        else:
+            db.insert_pergunta(codigo_input, descricao_input)
+            st.success("✅ Pergunta adicionada com sucesso!")
+        st.session_state["edit_codigo"] = ""
+        st.session_state["edit_descricao"] = ""
+        st.rerun()
+
+# 🔒 Encerrando conexão
+db.close()
+
 # Estilização da barra lateral
 st.markdown("""
     <style>
@@ -89,67 +154,3 @@ with st.sidebar:
             # Reinicia a aplicação
                 st.rerun()
 
-# 🔌 Conexão com o banco
-db = DatabaseConnection()
-db.connect()
-
-# 🔍 Filtro por módulo
-modulo_filtro = st.sidebar.number_input("🔎 Filtrar por módulo", min_value=0, step=1, key="modulo_filtro")
-if modulo_filtro > 0:
-    perguntas = db.get_perguntas(modulo_filtro)
-else:
-    perguntas = db.get_perguntas()
-
-# 📋 Visualização das perguntas
-st.subheader("📋 Perguntas cadastradas")
-
-if perguntas and len(perguntas) > 0:
-   for row in perguntas:
-    codigo = row['CO_PERGUNTA']
-    descricao = row['DE_PERGUNTA']
-
-    codigo_formatado = codigo.strip() if codigo else "Sem código"
-    descricao_formatada = descricao.strip() if descricao else "Sem descrição"
-
-    with st.expander(f"ID {row['PK_CO_PERGUNTA']} - Código {codigo_formatado}"):
-        st.write(descricao_formatada)
-        col1, col2 = st.columns(2)
-        with col1:
-            if st.button(f"✏️ Editar {row['PK_CO_PERGUNTA']}", key=f"editar_{row['PK_CO_PERGUNTA']}"):
-                st.session_state["edit_id"] = row['PK_CO_PERGUNTA']
-                st.session_state["edit_codigo"] = codigo_formatado
-                st.session_state["edit_descricao"] = descricao_formatada
-        with col2:
-            if st.button(f"❌ Excluir {row['PK_CO_PERGUNTA']}", key=f"excluir_{row['PK_CO_PERGUNTA']}"):
-                db.delete_pergunta(row['PK_CO_PERGUNTA'])
-                st.success(f"Pergunta {row['PK_CO_PERGUNTA']} excluída.")
-                st.rerun()
-else:
-    st.warning("⚠️ Nenhuma pergunta encontrada para o filtro atual.")
-
-# ➕ Formulário de edição/inserção
-st.subheader("➕ Adicionar ou Editar Pergunta")
-with st.form("form_crud"):
-    id_edicao = st.session_state.get("edit_id", None)
-    codigo_input = st.text_input("Pergunta", value=st.session_state.get("edit_codigo", ""))
-    descricao_input = st.text_area("Texto", value=st.session_state.get("edit_descricao", ""))
-    
-    enviar = st.form_submit_button("💾 Salvar")
-
-if enviar:
-    if not codigo_input.strip() or not descricao_input.strip():
-        st.warning("⚠️ Código e descrição não podem estar vazios.")
-    else:
-        if id_edicao:
-            db.update_pergunta(id_edicao, codigo_input, descricao_input)
-            st.success("✅ Pergunta atualizada com sucesso!")
-            st.session_state["edit_id"] = None
-        else:
-            db.insert_pergunta(codigo_input, descricao_input)
-            st.success("✅ Pergunta adicionada com sucesso!")
-        st.session_state["edit_codigo"] = ""
-        st.session_state["edit_descricao"] = ""
-        st.rerun()
-
-# 🔒 Encerrando conexão
-db.close()
