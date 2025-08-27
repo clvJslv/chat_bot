@@ -6,7 +6,7 @@ with open("assets/style.css") as f:
 
 # Configuração da página
 st.set_page_config(
-    page_title="Portal YOLO",
+    page_title="Simulado IDEB",
     page_icon="🧠",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -16,7 +16,7 @@ st.set_page_config(
 st.markdown("""
     <style>
         [data-testid="stSidebar"] {
-           background: linear-gradient(135deg, #1f2937, #374151);
+           background: #00000024;
            color: white;
            box-shadow: 0 0 10px rgba(0,0,0,0.5);
            padding: 20px;
@@ -73,7 +73,7 @@ with st.sidebar:
 # Conteúdo principal
 st.markdown(
     """
-    <h1 style='text-align: center; color: #4B8BBE;'>🔮 Aplicativos de Detecção de Faces e Objetos</h1>
+    <h1 style='text-align: center; color: #4B8BBE;'>🔮 Aplicação para Avaliação de Alunos</h1>
     """,
     unsafe_allow_html=True
 )
