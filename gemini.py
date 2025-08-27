@@ -16,9 +16,17 @@ st.set_page_config(
 st.markdown("""
     <style>
         [data-testid="stSidebar"] {
-            background-color: #1f2937;
-            color: white;
+           background: linear-gradient(135deg, #1f2937, #374151);
+           color: white;
+           box-shadow: 0 0 10px rgba(0,0,0,0.5);
+           padding: 20px;
+           border-radius: 10px;
         }
+        [data-testid="stSidebar"] {
+           height: 100vh;
+        overflow-y: auto;
+}
+
         [data-testid="stSidebar"] h2 {
             color: #10b981;
         }
