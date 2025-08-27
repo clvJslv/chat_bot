@@ -11,9 +11,6 @@ try:
 except FileNotFoundError:
     st.warning("⚠️ Arquivo de estilo não encontrado.")
 
-    st.set_page_config(page_title="📚 CRUD Simulado", layout="wide")
-    st.title("📚 Gerenciador de Perguntas do Simulado")
-
 # Conexão com o banco
 db = DatabaseConnection()
 db.connect()
@@ -35,6 +32,9 @@ def listar_usuarios():
 # Login com Modal
 modal = Modal("🔐 Portal de Acesso", key="login_modal", max_width=600)
 
+st.set_page_config(page_title="📚 CRUD Simulado", layout="wide")
+st.title("📚 Gerenciador de Perguntas do Simulado")
+    
 if "usuario" not in st.session_state:
     if st.button("Fazer Login"):
         modal.open()
