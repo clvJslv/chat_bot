@@ -1,7 +1,9 @@
+# app.py
 import streamlit as st
+from streamlit_modal import Modal
 from db_connection import DatabaseConnection
 
-# ✅ Configuração da página (chamada única e no topo)
+# ✅ Configuração da página
 st.set_page_config(page_title="Simulado SAEB", page_icon="🧠", layout="wide")
 
 # 🔧 Estilo personalizado
@@ -26,22 +28,28 @@ def listar_usuarios():
         st.error(f"Erro ao buscar usuários: {e}")
         return []
 
-# 🔐 Login
-st.markdown("<h2 style='text-align:center;'>🔐 Portal de Acesso</h2>", unsafe_allow_html=True)
+# 🔐 Login com Modal
+modal = Modal("🔐 Portal de Acesso", key="login_modal", max_width=600)
 
-with st.expander("Clique para fazer login", expanded=True):
-    usuarios = listar_usuarios()
-    usuario = st.selectbox("Usuário", usuarios)
-    senha = st.text_input("Senha", type="password")
+if "usuario" not in st.session_state:
+    if st.button("Fazer Login"):
+        modal.open()
 
-    if st.button("Entrar"):
-        perfil = db.autenticar_usuario(usuario, senha)
-        if perfil:
-            st.session_state.perfil = perfil
-            st.session_state.usuario = usuario
-            st.success(f"✅ Bem-vindo, {usuario}!")
-        else:
-            st.error("❌ Usuário ou senha inválidos.")
+    if modal.is_open():
+        with modal.container():
+            usuarios = listar_usuarios()
+            usuario = st.selectbox("Usuário", usuarios, key="usuario_modal")
+            senha = st.text_input("Senha", type="password", key="senha_modal")
+
+            if st.button("Entrar", key="btn_login_modal"):
+                perfil = db.autenticar_usuario(usuario, senha)
+                if perfil:
+                    st.session_state.perfil = perfil
+                    st.session_state.usuario = usuario
+                    st.success(f"✅ Bem-vindo, {usuario}!")
+                    modal.close()
+                else:
+                    st.error("❌ Usuário ou senha inválidos.")
 
 # 🔓 Conteúdo após login
 if "usuario" in st.session_state:
