@@ -23,8 +23,16 @@ st.markdown("""
             color: #10b981;
         }
         [data-testid="stSidebar"] .stButton button {
-            background-color: #10b981;
-            color: white;
+           background-color: #10b981;
+           color: rgb(11, 0, 0);
+           border: none;
+           border-radius: 8px;
+           padding: 10px 20px;
+           font-size: 16px;
+           font-weight: bold;
+           box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+           cursor: pointer;
+           transition: background-color 0.3s ease-in-out;
         }
     </style>
 """, unsafe_allow_html=True)
