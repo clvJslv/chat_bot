@@ -60,6 +60,14 @@ with open("assets/style.css") as f:
 
 st.set_page_config(page_title="📚 CRUD Simulado", layout="wide")
 st.title("📚 Gerenciador de Perguntas do Simulado")
+# Botão de logout
+if st.session_state.logged_in:
+    if st.button("🔓 Logout"):
+        st.session_state.logged_in = False
+        st.success("Você saiu com sucesso.")
+        st.experimental_rerun()
+
+
 
 # Estilização da barra lateral
 st.markdown("""
