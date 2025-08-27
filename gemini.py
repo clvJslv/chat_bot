@@ -57,66 +57,19 @@ st.markdown("""
 
 # Se o usuário já estiver logado
 if "perfil" in st.session_state:
-    #st.markdown("<div class='login-box'>", unsafe_allow_html=True)
-    #st.markdown(f"<div class='login-title'>Bem-vindo, {st.session_state.usuario}</div>", unsafe_allow_html=True)
+    st.markdown("<div class='login-box'>", unsafe_allow_html=True)
+    st.markdown(f"<div class='login-title'>Bem-vindo, {st.session_state.usuario}</div>", unsafe_allow_html=True)
     st.success(f"Perfil: {st.session_state.perfil}")
     if st.button("🚪  Logout"):
         del st.session_state["perfil"]
         del st.session_state["usuario"]
         st.rerun()
-    #st.markdown("</div>", unsafe_allow_html=True)
-
-# Tela de login
-else:
-    #st.markdown("<div class='login-box'>", unsafe_allow_html=True)
-    st.markdown("""
-    <style>
-    
-    /* Estilo para o título */
-    .login-title {
-        font-size: 24px;
-        font-weight: bold;
-        text-align: center;
-        margin-bottom: 20px;
-        color: #10b981;
-    }
-    </style>
-""", unsafe_allow_html=True)
-
-    st.markdown("""
-    <style>
-    div[data-testid="stTextInput"] label {
-        font-weight: 600;
-        font-size: 16px;
-        color: #10b981;
-        margin-bottom: 6px;
-        display: block;
-    }
-
-    div[data-testid="stTextInput"] input {
-        width: 180px;
-        height: 28px;
-        padding: 6px 10px;
-        font-size: 14px;
-        border: 1px solid #10b981;
-        border-radius: 5px;
-        background-color: #f9fafb;
-        color: #111827;
-        transition: border-color 0.3s ease;
-    }
-
-    div[data-testid="stTextInput"] input:focus {
-        border-color: #059669;
-        outline: none;
-    }
-    </style>
-""", unsafe_allow_html=True)
+    st.markdown("</div>", unsafe_allow_html=True)
 
     
 # Campos de entrada
     usuario = st.text_input("Usuário")
     senha = st.text_input("Senha", type="password")
-
 
     if st.button("Entrar"):
         perfil = db.autenticar_usuario(usuario, senha)
