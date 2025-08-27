@@ -1,4 +1,3 @@
-# app.py
 import streamlit as st
 from streamlit_modal import Modal
 from db_connection import DatabaseConnection
@@ -20,6 +19,10 @@ if not db.conn:
     st.error("❌ Falha na conexão com o banco.")
     st.stop()
 
+# Inicializa estado do modal
+if "show_login_modal" not in st.session_state:
+    st.session_state.show_login_modal = "usuario" not in st.session_state
+
 # Função para listar usuários
 def listar_usuarios():
     try:
@@ -33,8 +36,7 @@ def listar_usuarios():
 # Modal de login
 modal = Modal("🔐 Portal de Acesso", key="login_modal", max_width=600)
 
-# Abrir modal automaticamente se não estiver logado
-if "usuario" not in st.session_state:
+if st.session_state.show_login_modal:
     modal.open()
 
 if modal.is_open():
@@ -48,8 +50,8 @@ if modal.is_open():
             if perfil:
                 st.session_state.perfil = perfil
                 st.session_state.usuario = usuario
+                st.session_state.show_login_modal = False
                 st.success(f"✅ Bem-vindo, {usuario}!")
-                modal.close()
                 st.rerun()
             else:
                 st.error("❌ Usuário ou senha inválidos.")
@@ -121,7 +123,7 @@ if "usuario" in st.session_state:
 
         st.markdown("## 🚪   Sessão")
         if st.button("🚪   Sair", key="btn_logout"):
-            for key in ["usuario", "perfil"]:
+            for key in ["usuario", "perfil", "show_login_modal"]:
                 if key in st.session_state:
                     del st.session_state[key]
             st.rerun()
