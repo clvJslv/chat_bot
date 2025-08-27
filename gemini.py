@@ -113,7 +113,7 @@ with st.sidebar:
     if st.button("✅   Teste de Conexão", key="btn_azure"):
         st.switch_page("pages/conn_azure.py")
     if st.button("↩️   Retornar", key="btn_retornar"):
-        st.switch_page("pages/gemini.py")
+        st.switch_page("gemini.py")
     st.markdown("---")
     st.markdown("## ⚙️   Cadastro")
     if st.button("🗂️   Questões", key="btn_cadastrar"):
