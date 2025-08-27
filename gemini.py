@@ -46,6 +46,14 @@ st.markdown("""
 
 st.markdown("### 🧪 Bem-vindo ao APP Simulado assistido por IA")
 st.markdown("---")
+
+if st.button("🚪 Sair"):
+    # Remove dados de sessão
+    for key in ["usuario", "perfil"]:
+        st.session_state.pop(key, None)
+    # Reinicia a aplicação
+    st.experimental_rerun()
+
    
 if "usuario" not in st.session_state:
     if st.button("Fazer Login"):
