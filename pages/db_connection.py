@@ -212,7 +212,7 @@ class DatabaseConnection:
         cursor = self.conn.cursor()
         cursor.execute("""
             SELECT COUNT(*) FROM TB_012_ACESSOS A
-            JOIN TB_011_MODULOS M ON A.modulo_id = M.id
+            JOIN TB_011_MODULOS M ON A.id_modulo = M.id_modulo
             WHERE A.usuario_id = ? AND M.nome = ? AND A.permitido = 1
         """, (usuario_id, nome_modulo))
         resultado = cursor.fetchone()[0]

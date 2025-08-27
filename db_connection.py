@@ -157,7 +157,7 @@ class DatabaseConnection:
             return f"erro: {str(e)}"
         finally:
             cursor.close()
-            
+    
     def get_usuarios(self):
         cursor = self.conn.cursor()
         cursor.execute("SELECT id, usuario, perfil FROM TB_010_USUARIOS ORDER BY usuario")
@@ -175,7 +175,7 @@ class DatabaseConnection:
             return f"erro: {str(e)}"
         finally:
             cursor.close()
-    
+            
     def get_modulos(self):
         cursor = self.conn.cursor()
         cursor.execute("SELECT id, nome FROM TB_011_MODULOS")
@@ -212,7 +212,7 @@ class DatabaseConnection:
         cursor = self.conn.cursor()
         cursor.execute("""
             SELECT COUNT(*) FROM TB_012_ACESSOS A
-            JOIN TB_011_MODULOS M ON A.modulo_id = M.id
+            JOIN TB_011_MODULOS M ON A.id_modulo = M.id_modulo
             WHERE A.usuario_id = ? AND M.nome = ? AND A.permitido = 1
         """, (usuario_id, nome_modulo))
         resultado = cursor.fetchone()[0]
