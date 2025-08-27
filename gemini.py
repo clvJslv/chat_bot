@@ -35,19 +35,6 @@ modal = Modal("🔐 Portal de Acesso", key="login_modal", max_width=600)
 st.set_page_config(page_title="📚 CRUD Simulado", layout="wide")
 st.title("📚 Gerenciador de Perguntas do Simulado")
 
-st.markdown("<h1 style='text-align: center; color: #4B8BBE;'>🎒 Aplicação para Avaliação de Alunos</h1>", unsafe_allow_html=True)
-
-with st.expander("ℹ️ Sobre este portal"):
-        st.markdown("""
-            Este é um aplicativo que utiliza IA com consultas ao chatbot (GEMINI) para gerar simulados de acordo com descritores,
-            apresentando sugestões de conteúdo para estudo das questões respondidas de forma errada.
-
-            - 📚 [Documentação oficial do Streamlit](https://docs.streamlit.io/)
-            - 🐞 [Reportar falhas ou bugs](https://github.com/streamlit/streamlit/issues)
-        """)
-
-st.divider()
-st.markdown("### 🧪 Bem-vindo ao APP Simulado assistido por IA")
     
 if "usuario" not in st.session_state:
     if st.button("Fazer Login"):
