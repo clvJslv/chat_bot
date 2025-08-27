@@ -31,7 +31,7 @@ st.markdown("""
             color: #10b981;
         }
         [data-testid="stSidebar"] .stButton button {
-           background-color: #00000024;
+           background-color: #000000a9;
            color: rgba(245, 245, 245, 0.849);
            border: none;
            border-radius: 8px;
