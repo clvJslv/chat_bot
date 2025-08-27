@@ -1,6 +1,10 @@
 import streamlit as st
 from db_connection import DatabaseConnection
 
+# 🔧 Estilo personalizado
+with open("assets/style.css") as f:
+    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+    
 # Configuração da página
 st.set_page_config(page_title="Login", page_icon="🔐", layout="centered")
 
@@ -22,24 +26,19 @@ def listar_usuarios():
         st.error(f"Erro ao buscar usuários: {e}")
         return []
 
-# Título da página
-st.markdown("<h2 style='text-align:center; color:#10b981;'>🔐 Acesso ao Portal</h2>", unsafe_allow_html=True)
+# Interface de login
+st.markdown("<h2 style='text-align:center;'>🔐 Portal de Acesso</h2>", unsafe_allow_html=True)
 
-# Botão para abrir o modal
-if st.button("Fazer login"):
-    with st.modal("🔐 Login de Usuário", padding=30):
-        st.markdown("### Selecione o usuário e digite a senha")
+usuarios = listar_usuarios()
+usuario = st.selectbox("Usuário", usuarios)
+senha = st.text_input("Senha", type="password")
 
-        usuarios = listar_usuarios()
-        usuario = st.selectbox("Usuário", usuarios)
-        senha = st.text_input("Senha", type="password")
-
-        if st.button("Entrar"):
-            perfil = db.autenticar_usuario(usuario, senha)
-            if perfil:
-                st.session_state.perfil = perfil
-                st.session_state.usuario = usuario
-                st.success("✅ Login realizado com sucesso!")
-                st.switch_page("home.py")
-            else:
-                st.error("❌ Usuário ou senha inválidos.")
+if st.button("Entrar"):
+    perfil = db.autenticar_usuario(usuario, senha)
+    if perfil:
+        st.session_state.perfil = perfil
+        st.session_state.usuario = usuario
+        st.success("✅ Login realizado com sucesso!")
+        st.switch_page("gemini.py")  # redireciona para a página principal
+    else:
+        st.error("❌ Usuário ou senha inválidos.")

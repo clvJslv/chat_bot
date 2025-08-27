@@ -1,9 +1,9 @@
 import streamlit as st
 
-# Estilo externo
+# 🔧 Estilo personalizado
 with open("assets/style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-
+   
 # Configuração da página
 st.set_page_config(page_title="Simulado SAEB", page_icon="🧠", layout="wide")
 
