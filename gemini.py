@@ -52,7 +52,7 @@ if st.button("🚪 Sair"):
     for key in ["usuario", "perfil"]:
         st.session_state.pop(key, None)
     # Reinicia a aplicação
-    st.experimental_rerun()
+    st.rerun()
 
    
 if "usuario" not in st.session_state:
