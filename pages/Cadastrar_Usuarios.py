@@ -91,22 +91,53 @@ with st.sidebar:
 db = DatabaseConnection()
 db.connect()
 
-with st.form("form_usuario"):
+# 🔍 Selecionar usuário existente ou novo
+usuarios = db.get_usuarios()
+opcoes = ["➕ Novo usuário"] + [u["usuario"] for u in usuarios]
+usuario_selecionado = st.selectbox("Selecione um usuário", opcoes)
+
+# 🔁 Se for usuário existente, preencher dados
+if usuario_selecionado != "➕ Novo usuário":
+    usuario_data = next(u for u in usuarios if u["usuario"] == usuario_selecionado)
+    usuario = usuario_data["usuario"]
+    perfil_atual = usuario_data["perfil"]
+    senha = st.text_input("🔒 Nova senha", type="password")
+    perfil = st.selectbox("🎓 Perfil", ["Aluno", "Professor", "Administrador"], index=["Aluno", "Professor", "Administrador"].index(perfil_atual))
+
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("💾 Atualizar"):
+            if senha.strip():
+                resultado = db.merge_usuario(usuario.strip(), senha.strip(), perfil)
+                if resultado == "atualizado":
+                    st.success(f"🔁 Usuário '{usuario}' atualizado com sucesso!")
+                else:
+                    st.error(f"❌ Erro: {resultado}")
+            else:
+                st.warning("⚠️ Informe uma nova senha para atualizar.")
+    with col2:
+        if st.button("🗑️ Excluir"):
+            resultado = db.delete_usuario(usuario)
+            if resultado is True:
+                st.success(f"🗑️ Usuário '{usuario}' excluído com sucesso!")
+                st.rerun()
+            else:
+                st.error(f"❌ Erro ao excluir: {resultado}")
+
+# ➕ Adicionar novo usuário
+else:
     usuario = st.text_input("👤 Nome de usuário")
     senha = st.text_input("🔒 Senha", type="password")
     perfil = st.selectbox("🎓 Perfil", ["Aluno", "Professor", "Administrador"])
-    enviar = st.form_submit_button("💾 Salvar")
-
-if enviar:
-    if not usuario.strip() or not senha.strip():
-        st.warning("⚠️ Usuário e senha são obrigatórios.")
-    else:
-        resultado = db.merge_usuario(usuario.strip(), senha.strip(), perfil)
-        if resultado == "inserido":
-            st.success(f"✅ Usuário '{usuario}' cadastrado com sucesso!")
-        elif resultado == "atualizado":
-            st.info(f"🔁 Usuário '{usuario}' atualizado com sucesso!")
+    if st.button("💾 Cadastrar novo"):
+        if usuario.strip() and senha.strip():
+            resultado = db.merge_usuario(usuario.strip(), senha.strip(), perfil)
+            if resultado == "inserido":
+                st.success(f"✅ Usuário '{usuario}' cadastrado com sucesso!")
+                st.rerun()
+            else:
+                st.error(f"❌ Erro: {resultado}")
         else:
-            st.error(f"❌ Erro: {resultado}")
+            st.warning("⚠️ Preencha todos os campos.")
 
 db.close()

@@ -157,3 +157,21 @@ class DatabaseConnection:
             return f"erro: {str(e)}"
         finally:
             cursor.close()
+            
+    def get_usuarios(self):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT id, usuario, perfil FROM TB_010_USUARIOS ORDER BY usuario")
+        usuarios = [{"id": row[0], "usuario": row[1], "perfil": row[2]} for row in cursor.fetchall()]
+        cursor.close()
+        return usuarios
+
+    def delete_usuario(self, usuario):
+        cursor = self.conn.cursor()
+        try:
+            cursor.execute("DELETE FROM TB_010_USUARIOS WHERE usuario = ?", (usuario,))
+            self.conn.commit()
+            return True
+        except Exception as e:
+            return f"erro: {str(e)}"
+        finally:
+            cursor.close()
