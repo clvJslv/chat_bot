@@ -4,6 +4,8 @@ from streamlit_modal import Modal
 from db_connection import DatabaseConnection
 
 st.set_page_config(page_title="Simulado SAEB", page_icon="🧠", layout="wide")
+st.set_page_config(page_title="📚 CRUD Simulado", layout="wide")
+st.title("📚 Gerenciador de Perguntas do Simulado")
 
 # Estilo personalizado
 try:
@@ -124,5 +126,4 @@ if "usuario" in st.session_state:
         with open("assets/style.css") as f:
             st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-            st.set_page_config(page_title="📚 CRUD Simulado", layout="wide")
-            st.title("📚 Gerenciador de Perguntas do Simulado")
+            
