@@ -1,6 +1,10 @@
 import streamlit as st
 from db_connection import DatabaseConnection
 
+# Estilo
+with open("assets/style.css") as f:
+    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
 # Configuração
 st.set_page_config(page_title="Simulado SAEB", page_icon="🧠", layout="wide")
 
@@ -54,11 +58,31 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# Estilo personalizado
+st.markdown("""
+    <style>
+        .login-box {
+            background-color: #1f2937;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            max-width: 400px;
+            margin: auto;
+            color: white;
+        }
+        .login-title {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #10b981;
+        }
+    </style>
+""", unsafe_allow_html=True)
 
 # Se o usuário já estiver logado
 if "perfil" in st.session_state:
-    st.markdown("<div class='login-box'>", unsafe_allow_html=True)
-    st.markdown(f"<div class='login-title'>Bem-vindo, {st.session_state.usuario}</div>", unsafe_allow_html=True)
+    #st.markdown("<div class='login-box'>", unsafe_allow_html=True)
+    #st.markdown(f"<div class='login-title'>Bem-vindo, {st.session_state.usuario}</div>", unsafe_allow_html=True)
     st.success(f"Perfil: {st.session_state.perfil}")
     if st.button("🚪  Logout"):
         del st.session_state["perfil"]
@@ -66,10 +90,42 @@ if "perfil" in st.session_state:
         st.rerun()
     st.markdown("</div>", unsafe_allow_html=True)
 
-    
+# Tela de login
+else:
+    #st.markdown("<div class='login-box'>", unsafe_allow_html=True)
+    st.markdown("""
+    <style>
+    /* Estiliza todos os campos de texto */
+    div[data-testid="stTextInput"] input {
+        width: 200px;
+        height: 30px;
+        padding: 5px;
+        font-size: 14px;
+        border-radius: 6px;
+        border: 1px solid #10b981;
+        background-color: #1f2937;
+        color: #f5f5f5;
+    }
+
+    /* Estilo para o título */
+    .login-title {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 20px;
+        color: #10b981;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+# Layout
+    st.sidebar.markdown("---")
+    st.markdown("<div class='login-title'>Login</div>", unsafe_allow_html=True)
+
 # Campos de entrada
     usuario = st.text_input("Usuário")
     senha = st.text_input("Senha", type="password")
+
 
     if st.button("Entrar"):
         perfil = db.autenticar_usuario(usuario, senha)
@@ -125,5 +181,5 @@ with st.expander("ℹ️ Sobre este portal"):
         - 🐞 [Reportar falhas ou bugs](https://github.com/streamlit/streamlit/issues)
     """)
 
-#st.divider()
+st.divider()
 st.markdown("### 🧪 Bem-vindo ao APP Simulado assistido por IA")
