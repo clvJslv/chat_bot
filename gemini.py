@@ -135,7 +135,7 @@ if "usuario" in st.session_state:
             st.switch_page("pages/Cadastrar_Questões.py")
         if st.button("🗂️   Respostas", key="btn_cadastrar_respostas"):
             st.switch_page("pages/Cadastrar_Respostas.py")
-        if st.button("🗂️   Respostas", key="btn_cadastrar_usuarios"):
+        if st.button("🗂️   Cadastrar Usuários", key="btn_cadastrar_usuarios"):
             st.switch_page("pages/Cadastrar_Usuarios.py")
             st.markdown("---")
         
