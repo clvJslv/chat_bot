@@ -62,7 +62,7 @@ st.markdown("""
 st.markdown("""
     <style>
         .login-box {
-            background-color: #1f2937;
+            background-color: #0000004c;
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
