@@ -35,6 +35,7 @@ st.markdown("""
            background-color: #0000004c;
            color: rgba(245, 245, 245, 0.849);
            text-align: left;
+           padding-left: 12px;
            width: 300px;
            height: 40px;
            border: none;
@@ -52,7 +53,7 @@ st.markdown("""
 # 🧭 Barra lateral personalizada
 with st.sidebar:
     st.markdown("## 🧭 Navegação")
-    if st.button("🤖  Chatbot         ", key="btn_chatbot"):
+    if st.button("🤖Chatbot", key="btn_chatbot"):
        st.switch_page("pages/chatbot.py")
     if st.button("🤖 Gerar_Simulado", key="btn_simulado"):
         st.switch_page("pages/Gerar_Simulado.py")
@@ -62,9 +63,9 @@ with st.sidebar:
         st.switch_page("gemini.py")
     st.markdown("---")
     st.markdown("## ⚙️ Cadastro")
-    if st.button("🤖 Questões                ", key="btn_cadastrar"):
+    if st.button("🤖 Questões", key="btn_cadastrar"):
         st.switch_page("pages/Cadastrar_Questões.py")
-    if st.button("🤖 Respostas               ", key="btn_cadastrar_respostas"):
+    if st.button("🤖 Respostas", key="btn_cadastrar_respostas"):
         st.switch_page("pages/Cadastrar_Respostas.py")
         st.markdown("---")
     
