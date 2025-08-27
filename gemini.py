@@ -115,13 +115,36 @@ else:
         margin-bottom: 20px;
         color: #10b981;
     }
-    .st.text_input {
-        font-size: 24px;
-        font-weight: bold;
-        text-align: center;
-        margin-bottom: 20px;
-        color: #10b981;
+   /* Estilo para campo de texto (Usuário) */
+    div[data-testid="stTextInput"]:nth-of-type(1) input {
+        width: 220px;
+        height: 32px;
+        padding: 6px 10px;
+        font-size: 14px;
+        border: 2px solid #10b981;
+        border-radius: 6px;
+        background-color: #f9fafb;
+        color: #111827;
     }
+
+    /* Estilo para campo de senha (Senha) */
+    div[data-testid="stTextInput"]:nth-of-type(2) input {
+        width: 220px;
+        height: 32px;
+        padding: 6px 10px;
+        font-size: 14px;
+        border: 2px solid #3b82f6;
+        border-radius: 6px;
+        background-color: #f3f4f6;
+        color: #1f2937;
+    }
+
+    /* Placeholder estilizado */
+    input::placeholder {
+        color: #9ca3af;
+        font-style: italic;
+    }
+
     
     </style>
 """, unsafe_allow_html=True)
