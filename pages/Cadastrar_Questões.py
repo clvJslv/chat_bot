@@ -13,13 +13,6 @@ st.title("📚 Gerenciador de Perguntas do Simulado")
 db = DatabaseConnection()
 db.connect()
 
-# 🔍 Filtro por módulo
-modulo_filtro = st.sidebar.number_input("🔎 Filtrar por módulo", min_value=0, step=1, key="modulo_filtro")
-if modulo_filtro > 0:
-    perguntas = db.get_perguntas(modulo_filtro)
-else:
-    perguntas = db.get_perguntas()
-
 # 📋 Visualização das perguntas
 st.subheader("📋 Perguntas cadastradas")
 
