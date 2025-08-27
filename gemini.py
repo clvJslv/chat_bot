@@ -97,32 +97,32 @@ if "usuario" in st.session_state:
                 }
             </style>
 """, unsafe_allow_html=True)
-
+if "usuario" in st.session_state:
 # 🧭 Barra lateral personalizada
-        with st.sidebar:
-            st.markdown("## 🧭 Navegação")
-        if st.button("🎓   Chatbot", key="btn_chatbot"):
-            st.switch_page("pages/chatbot.py")
-        if st.button("🖥️   Gerar Simulado", key="btn_simulado"):
-            st.switch_page("pages/Gerar_Simulado.py")
-        if st.button("✅   Teste de Conexão", key="btn_azure"):
-            st.switch_page("pages/conn_azure.py")
-        if st.button("↩️   Retornar", key="btn_retornar"):
-            st.switch_page("gemini.py")
-        st.markdown("---")
-        st.markdown("## ⚙️   Cadastro")
-        if st.button("🗂️   Questões", key="btn_cadastrar"):
-            st.switch_page("pages/Cadastrar_Questões.py")
-        if st.button("🗂️   Respostas", key="btn_cadastrar_respostas"):
-            st.switch_page("pages/Cadastrar_Respostas.py")
-        st.markdown("---")
+    with st.sidebar:
+         st.markdown("## 🧭 Navegação")
+    if st.button("🎓   Chatbot", key="btn_chatbot"):
+         st.switch_page("pages/chatbot.py")
+    if st.button("🖥️   Gerar Simulado", key="btn_simulado"):
+         st.switch_page("pages/Gerar_Simulado.py")
+    if st.button("✅   Teste de Conexão", key="btn_azure"):
+         st.switch_page("pages/conn_azure.py")
+    if st.button("↩️   Retornar", key="btn_retornar"):
+         st.switch_page("gemini.py")
+         st.markdown("---")
+         st.markdown("## ⚙️   Cadastro")
+    if st.button("🗂️   Questões", key="btn_cadastrar"):
+         st.switch_page("pages/Cadastrar_Questões.py")
+    if st.button("🗂️   Respostas", key="btn_cadastrar_respostas"):
+         st.switch_page("pages/Cadastrar_Respostas.py")
+         st.markdown("---")
     
-        st.markdown("---")
-        st.markdown("### 📞   Suporte")
-        st.write("Email: suporte@meuapp.com")
+         st.markdown("---")
+         st.markdown("### 📞   Suporte")
+         st.write("Email: suporte@meuapp.com")
 
-        with open("assets/style.css") as f:
-            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+    with open("assets/style.css") as f:
+         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-            st.set_page_config(page_title="📚 CRUD Simulado", layout="wide")
-            st.title("📚 Gerenciador de Perguntas do Simulado")
+         st.set_page_config(page_title="📚 CRUD Simulado", layout="wide")
+         st.title("📚 Gerenciador de Perguntas do Simulado")
