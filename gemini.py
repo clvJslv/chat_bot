@@ -87,7 +87,7 @@ if "perfil" in st.session_state:
     if st.button("🚪  Logout"):
         del st.session_state["perfil"]
         del st.session_state["usuario"]
-        st.experimental_rerun()
+        st.rerun()
     st.markdown("</div>", unsafe_allow_html=True)
 
 # Tela de login
