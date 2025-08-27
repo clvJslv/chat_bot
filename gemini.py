@@ -3,17 +3,15 @@ import streamlit as st
 from streamlit_modal import Modal
 from db_connection import DatabaseConnection
 
-# 🎨 Configuração inicial
 st.set_page_config(page_title="Simulado SAEB", page_icon="🧠", layout="wide")
-
-# 🔧 Estilo personalizado
+# Estilo personalizado
 try:
     with open("assets/style.css") as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 except FileNotFoundError:
     st.warning("⚠️ Arquivo de estilo não encontrado.")
 
-# 🔌 Conexão com o banco
+# Conexão com o banco
 db = DatabaseConnection()
 db.connect()
 
@@ -21,7 +19,7 @@ if not db.conn:
     st.error("❌ Falha na conexão com o banco.")
     st.stop()
 
-# 🔍 Função para listar usuários
+# Função para listar usuários
 def listar_usuarios():
     try:
         cursor = db.conn.cursor()
@@ -31,22 +29,25 @@ def listar_usuarios():
         st.error(f"Erro ao buscar usuários: {e}")
         return []
 
-# 🔐 Login com Modal
+# Login com Modal
 modal = Modal("🔐 Portal de Acesso", key="login_modal", max_width=600)
 
+#st.set_page_config(page_title="📚 CRUD Simulado", layout="wide")
 st.title("📚 Gerenciador de Perguntas do Simulado")
+
 st.markdown("---")
 st.markdown("""
-Este é um aplicativo que utiliza IA com consultas ao chatbot (GEMINI) para gerar simulados de acordo com descritores,
-apresentando sugestões de conteúdo para estudo das questões respondidas de forma errada.
+            Este é um aplicativo que utiliza IA com consultas ao chatbot (GEMINI) para gerar simulados de acordo com descritores,
+            apresentando sugestões de conteúdo para estudo das questões respondidas de forma errada.
 
-- 📚 [Documentação oficial do Streamlit](https://docs.streamlit.io/)
-- 🐞 [Reportar falhas ou bugs](https://github.com/streamlit/streamlit/issues)
-""")
+            - 📚 [Documentação oficial do Streamlit](https://docs.streamlit.io/)
+            - 🐞 [Reportar falhas ou bugs](https://github.com/streamlit/streamlit/issues)
+        """)
+
 st.markdown("### 🧪 Bem-vindo ao APP Simulado assistido por IA")
 st.markdown("---")
 
-# 🧠 Autenticação
+  
 if "usuario" not in st.session_state:
     if st.button("Fazer Login"):
         modal.open()
@@ -58,31 +59,34 @@ if "usuario" not in st.session_state:
             senha = st.text_input("Senha", type="password", key="senha_modal")
 
             if st.button("Entrar", key="btn_login_modal"):
-                auth = db.autenticar_usuario(usuario, senha)
-                if auth:
+                perfil = db.autenticar_usuario(usuario, senha)
+                if perfil:
+                    st.session_state.perfil = perfil
                     st.session_state.usuario = usuario
-                    st.session_state.perfil = auth["perfil"]
-                    st.session_state.usuario_id = auth["id"]
                     st.success(f"✅ Bem-vindo, {usuario}!")
                     modal.close()
-                    st.rerun()
                 else:
-                    st.error("❌ Credenciais inválidas.")
+                    st.error("❌ Usuário ou senha inválidos.")
 
-# 📂 Conteúdo após login
+# Conteúdo após login
+# 🔧 Estilo personalizado
 if "usuario" in st.session_state:
-    # 🎨 Estilização da barra lateral
+# Estilização da barra lateral
     st.markdown("""
     <style>
         [data-testid="stSidebar"] {
-           background: linear-gradient(#000000, #0000004c, #06080075);
+           background: linear-gradient( #000000, #0000004c, #06080075);
            color: white;
            box-shadow: 0 0 10px rgba(0,0,0,0.5);
            padding: 20px;
            border-radius: 10px;
-           height: 100vh;
-           overflow-y: auto;
         }
+       
+        [data-testid="stSidebar"] {
+           height: 100vh;
+        overflow-y: auto;
+}
+
         [data-testid="stSidebar"] h2 {
             color: #10b981;
         }
@@ -90,6 +94,7 @@ if "usuario" in st.session_state:
            background-color: #0000004c;
            color: rgba(245, 245, 245, 0.849);
            text-align: left;
+           padding-left: 12px;
            width: 240px;
            height: 40px;
            border: none;
@@ -100,52 +105,71 @@ if "usuario" in st.session_state:
            cursor: pointer;
            transition: background-color 0.3s ease-in-out;
            display: flex;
-           justify-content: flex-start;
-           align-items: center;
-           padding-left: 12px;
+           justify-content: flex-start;   /* Alinha conteúdo à esquerda */
+           align-items: center;           /* Centraliza verticalmente */
+           padding-left: 12px;            /* Espaço interno à esquerda */
+           text-align: left;              /* Redundante, mas seguro */
         }
     </style>
-    """, unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
-    # 🧭 Barra lateral
+# 🧭 Barra lateral personalizada
     with st.sidebar:
-        st.markdown(f"""
-        👋 Olá, **{st.session_state.usuario}**  
-        🔐 Perfil: **{st.session_state.perfil}**
-        """)
-        st.markdown("## 🧭 Navegação")
+        if "usuario" in st.session_state and "perfil" in st.session_state:
+            st.markdown(f"""
+            👋 Olá, **{st.session_state.usuario}**  
+            🔐 Perfil: **{st.session_state.perfil}**
+            """)
 
-        usuario_id = st.session_state.usuario_id
+            st.markdown("## 🧭 Navegação")
 
-        # 🔁 Função utilitária para acesso
-        def acesso_modulo(nome, caminho, chave):
-            if db.usuario_tem_acesso(usuario_id, nome):
-                if st.button(f"🔹  {nome}", key=chave):
-                    st.switch_page(caminho)
+            usuario_id = st.session_state.get("usuario_id")  # você precisa salvar isso na sessão após login
+            db = DatabaseConnection()
+            db.connect()
 
-        # 📁 Módulos disponíveis
-        modulos = {
-            "Chatbot": "pages/chatbot.py",
-            "Gerar Simulado": "pages/Gerar_Simulado.py",
-            "Teste de Conexão": "pages/conn_azure.py",
-            "Retornar": "gemini.py",
-            "Questões": "pages/Cadastrar_Questões.py",
-            "Respostas": "pages/Cadastrar_Respostas.py",
-            "Cadastrar Usuários": "pages/Cadastrar_Usuarios.py"
-        }
+            if db.usuario_tem_acesso(usuario_id, "Chatbot"):
+                if st.button("🎓   Chatbot", key="btn_chatbot"):
+                    st.switch_page("pages/chatbot.py")
 
-        for nome, caminho in modulos.items():
-            acesso_modulo(nome, caminho, f"btn_{nome.replace(' ', '_').lower()}")
+            if db.usuario_tem_acesso(usuario_id, "Gerar Simulado"):
+                if st.button("🖥️   Gerar Simulado", key="btn_simulado"):
+                    st.switch_page("pages/Gerar_Simulado.py")
 
-        st.markdown("---")
-        st.markdown("### 📞   Suporte")
-        st.write("Email: suporte@meuapp.com")
+            if db.usuario_tem_acesso(usuario_id, "Teste de Conexão"):
+                if st.button("✅   Teste de Conexão", key="btn_azure"):
+                    st.switch_page("pages/conn_azure.py")
 
-        if st.button("🚪 Sair"):
-            for key in ["usuario", "perfil", "usuario_id"]:
-                st.session_state.pop(key, None)
-            st.rerun()
+            if db.usuario_tem_acesso(usuario_id, "Retornar"):
+                if st.button("↩️   Retornar", key="btn_retornar"):
+                    st.switch_page("gemini.py")
 
-    # 🧠 Conteúdo principal
-    st.title("📚 Simulado SAEB")
-    st.markdown("Escolha uma opção na barra lateral para começar.")
+            st.markdown("---")
+            st.markdown("## ⚙️   Cadastro")
+
+            if db.usuario_tem_acesso(usuario_id, "Questões"):
+                if st.button("🗂️   Questões", key="btn_cadastrar"):
+                    st.switch_page("pages/Cadastrar_Questões.py")
+
+            if db.usuario_tem_acesso(usuario_id, "Respostas"):
+                if st.button("🗂️   Respostas", key="btn_cadastrar_respostas"):
+                    st.switch_page("pages/Cadastrar_Respostas.py")
+
+            if db.usuario_tem_acesso(usuario_id, "Cadastrar Usuários"):
+                if st.button("🗂️   Cadastrar Usuários", key="btn_cadastrar_usuarios"):
+                    st.switch_page("pages/Cadastrar_Usuarios.py")
+
+            st.markdown("---")
+            st.markdown("### 📞   Suporte")
+            st.write("Email: suporte@meuapp.com")
+
+            if st.button("🚪 Sair"):
+                for key in ["usuario", "perfil", "usuario_id"]:
+                    st.session_state.pop(key, None)
+                st.rerun()
+
+            db.close()
+
+        with open("assets/style.css") as f:
+            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+            
