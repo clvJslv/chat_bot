@@ -114,17 +114,11 @@ class DatabaseConnection:
         cursor.close()
     
     # 🔐 Autenticação
-    def autenticar_usuario(self, usuario, senha):
+    def autenticar_usuario(self,usuario, senha):
         cursor = self.conn.cursor()
-        cursor.execute("""
-            SELECT id_usuario, perfil FROM TB_010_USUARIOS
-            WHERE usuario = ? AND senha = ?
-        """, (usuario, senha))
-        result = cursor.fetchone()
-        if result:
-            return {"id": result[0], "perfil": result[1]}
-        return None
-
+        cursor.execute("SELECT perfil FROM TB_010_USUARIOS WHERE usuario=? AND senha=?", (usuario, senha))
+        resultado = cursor.fetchone()
+        return resultado[0] if resultado else None
     
     def listar_usuarios(self):
         try:
@@ -218,8 +212,8 @@ class DatabaseConnection:
         cursor = self.conn.cursor()
         cursor.execute("""
             SELECT COUNT(*) FROM TB_012_ACESSOS A
-            JOIN TB_011_MODULOS M ON A.id_modulo = M.id_modulo
-            WHERE A.perfil = ? AND M.nome_modulo = ?
+            JOIN TB_011_MODULOS M ON A.modulo_id = M.id
+            WHERE A.usuario_id = ? AND M.nome = ? AND A.permitido = 1
         """, (usuario_id, nome_modulo))
         resultado = cursor.fetchone()[0]
         cursor.close()
