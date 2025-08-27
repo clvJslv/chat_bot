@@ -20,7 +20,7 @@ st.set_page_config(
 # 🔐 Autenticação
 def autenticar_usuario(usuario, senha):
     cursor = conn.cursor()
-    cursor.execute("SELECT perfil FROM usuarios WHERE usuario=? AND senha=?", (usuario, senha))
+    cursor.execute("SELECT perfil FROM TB_010_USUARIOS WHERE usuario=? AND senha=?", (usuario, senha))
     resultado = cursor.fetchone()
     return resultado[0] if resultado else None
 
