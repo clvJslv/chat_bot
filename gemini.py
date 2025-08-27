@@ -93,10 +93,39 @@ if "perfil" in st.session_state:
 # Tela de login
 else:
     #st.markdown("<div class='login-box'>", unsafe_allow_html=True)
+    st.markdown("""
+    <style>
+    /* Estiliza todos os campos de texto */
+    div[data-testid="stTextInput"] input {
+        width: 200px;
+        height: 30px;
+        padding: 5px;
+        font-size: 14px;
+        border-radius: 6px;
+        border: 1px solid #10b981;
+        background-color: #1f2937;
+        color: #f5f5f5;
+    }
+
+    /* Estilo para o título */
+    .login-title {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 20px;
+        color: #10b981;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+# Layout
     st.sidebar.markdown("---")
     st.markdown("<div class='login-title'>Login</div>", unsafe_allow_html=True)
+
+# Campos de entrada
     usuario = st.text_input("Usuário")
     senha = st.text_input("Senha", type="password")
+
 
     if st.button("Entrar"):
         perfil = db.autenticar_usuario(usuario, senha)
