@@ -104,7 +104,7 @@ else:
             st.session_state.perfil = perfil
             st.session_state.usuario = usuario
             st.success("Login realizado com sucesso!")
-            st.experimental_rerun()
+            st.rerun()
         else:
             st.error("Usuário ou senha inválidos.")
 
