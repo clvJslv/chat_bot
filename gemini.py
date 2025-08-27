@@ -115,6 +115,11 @@ if "usuario" in st.session_state:
 
 # 🧭 Barra lateral personalizada
     with st.sidebar:
+        if "usuario" in st.session_state and "perfil" in st.session_state:
+            st.markdown(f"""
+            👋 Olá, **{st.session_state.usuario}**  
+            🔐 Perfil: **{st.session_state.perfil}**
+            """)
         st.markdown("## 🧭 Navegação")
         if st.button("🎓   Chatbot", key="btn_chatbot"):
             st.switch_page("pages/chatbot.py")
