@@ -2,6 +2,7 @@ import streamlit as st
 from streamlit_modal import Modal
 from db_connection import DatabaseConnection
 
+# Configuração da página
 st.set_page_config(page_title="Simulado SAEB", page_icon="🧠", layout="wide")
 
 # Estilo personalizado
@@ -19,10 +20,6 @@ if not db.conn:
     st.error("❌ Falha na conexão com o banco.")
     st.stop()
 
-# Inicializa estado do modal
-if "show_login_modal" not in st.session_state:
-    st.session_state.show_login_modal = "usuario" not in st.session_state
-
 # Função para listar usuários
 def listar_usuarios():
     try:
@@ -36,7 +33,8 @@ def listar_usuarios():
 # Modal de login
 modal = Modal("🔐 Portal de Acesso", key="login_modal", max_width=600)
 
-if st.session_state.show_login_modal:
+# Se não estiver logado, abre o modal
+if "usuario" not in st.session_state:
     modal.open()
 
 if modal.is_open():
@@ -48,23 +46,23 @@ if modal.is_open():
         if st.button("Entrar", key="btn_login_modal"):
             perfil = db.autenticar_usuario(usuario, senha)
             if perfil:
-                st.session_state.perfil = perfil
                 st.session_state.usuario = usuario
-                st.session_state.show_login_modal = False
+                st.session_state.perfil = perfil
                 st.success(f"✅ Bem-vindo, {usuario}!")
-                st.rerun()
+                st.experimental_rerun()
             else:
                 st.error("❌ Usuário ou senha inválidos.")
 
 # Conteúdo pós-login
 if "usuario" in st.session_state:
+    st.title("📚 Gerenciador de Perguntas do Simulado")
+
+    # Reaplica estilo
     try:
         with open("assets/style.css") as f:
             st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
     except FileNotFoundError:
         pass
-
-    st.title("📚 Gerenciador de Perguntas do Simulado")
 
     # Estilização da barra lateral
     st.markdown("""
@@ -77,9 +75,6 @@ if "usuario" in st.session_state:
                border-radius: 10px;
                height: 100vh;
                overflow-y: auto;
-            }
-            [data-testid="stSidebar"] h2 {
-                color: #10b981;
             }
             [data-testid="stSidebar"] .stButton button {
                background-color: #0000004c;
@@ -123,10 +118,9 @@ if "usuario" in st.session_state:
 
         st.markdown("## 🚪   Sessão")
         if st.button("🚪   Sair", key="btn_logout"):
-            for key in ["usuario", "perfil", "show_login_modal"]:
-                if key in st.session_state:
-                    del st.session_state[key]
-            st.rerun()
+            for key in ["usuario", "perfil"]:
+                st.session_state.pop(key, None)
+            st.experimental_rerun()
 
         st.markdown("### 📞   Suporte")
         st.write("Email: suporte@meuapp.com")
