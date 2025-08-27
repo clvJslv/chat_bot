@@ -1,5 +1,5 @@
 [data-testid="stSidebar"] {
-    background: #0f0146;
+    linear-gradient(#0000004c, #bbff00, #0f0146);
     color: white;
 }
 [data-testid="stSidebar"] h2 {
