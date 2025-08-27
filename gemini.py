@@ -1,36 +1,28 @@
 import streamlit as st
 from db_connection import DatabaseConnection
 
-# 🔌 Conexão com o banco
-db = DatabaseConnection()
-conn = db.connect()
-
-# 🎨 Estilo customizado
+# Estilo
 with open("assets/style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-# ⚙️ Configuração da página
-st.set_page_config(
-    page_title="Simulado SAEB",
-    page_icon="🧠",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+# Configuração
+st.set_page_config(page_title="Simulado SAEB", page_icon="🧠", layout="wide")
 
-# 🔐 Autenticação
-def autenticar_usuario(usuario, senha):
-    cursor = conn.cursor()
-    cursor.execute("SELECT perfil FROM TB_010_USUARIOS WHERE usuario=? AND senha=?", (usuario, senha))
-    resultado = cursor.fetchone()
-    return resultado[0] if resultado else None
+# Conexão
+db = DatabaseConnection()
+db.connect()
 
-# 🧾 Login
+if not db.conn:
+    st.error("❌ Conexão com o banco falhou.")
+    st.stop()
+
+# Login
 st.title("🔐 Portal de Autenticação")
 usuario = st.text_input("Usuário")
 senha = st.text_input("Senha", type="password")
 
 if st.button("Entrar"):
-    perfil = autenticar_usuario(usuario, senha)
+    perfil = db.autenticar_usuario(usuario, senha)
     if perfil:
         st.success(f"Bem-vindo, {usuario} ({perfil})")
         st.session_state.perfil = perfil
@@ -38,7 +30,7 @@ if st.button("Entrar"):
     else:
         st.error("Usuário ou senha inválidos")
 
-# 🧭 Menu lateral baseado na matriz
+# Menu lateral
 if "perfil" in st.session_state:
     perfil = st.session_state.perfil
     st.sidebar.markdown("## 🧭 Navegação")
@@ -65,14 +57,10 @@ if "perfil" in st.session_state:
     st.sidebar.markdown("### 📞   Suporte")
     st.sidebar.write("Email: suporte@meuapp.com")
 
-    # 👋 Saudação
     st.markdown(f"### 👋 Olá, {st.session_state.usuario}! Você está logado como **{perfil}**.")
 
-# 🧠 Conteúdo principal
-st.markdown(
-    "<h1 style='text-align: center; color: #4B8BBE;'>🎒 Aplicação para Avaliação de Alunos</h1>",
-    unsafe_allow_html=True
-)
+# Conteúdo principal
+st.markdown("<h1 style='text-align: center; color: #4B8BBE;'>🎒 Aplicação para Avaliação de Alunos</h1>", unsafe_allow_html=True)
 
 with st.expander("ℹ️ Sobre este portal"):
     st.markdown("""
