@@ -58,26 +58,6 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Estilo personalizado
-st.markdown("""
-    <style>
-        .login-box {
-            background-color: #1f2937;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            max-width: 400px;
-            margin: auto;
-            color: white;
-        }
-        .login-title {
-            text-align: center;
-            font-size: 28px;
-            margin-bottom: 20px;
-            color: #10b981;
-        }
-    </style>
-""", unsafe_allow_html=True)
 
 # Se o usuário já estiver logado
 if "perfil" in st.session_state:
@@ -88,7 +68,7 @@ if "perfil" in st.session_state:
         del st.session_state["perfil"]
         del st.session_state["usuario"]
         st.rerun()
-    st.markdown("</div>", unsafe_allow_html=True)
+    #st.markdown("</div>", unsafe_allow_html=True)
 
 # Tela de login
 else:
