@@ -172,3 +172,10 @@ class DatabaseConnection:
         cursor.execute("DELETE FROM TB_008_RESPOSTAS WHERE CO_RESPOSTA = ?", resposta_id)
         self.conn.commit()
         cursor.close()
+    
+    # 🔐 Autenticação
+    def autenticar_usuario(self,usuario, senha):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT perfil FROM TB_010_USUARIOS WHERE usuario=? AND senha=?", (usuario, senha))
+        resultado = cursor.fetchone()
+        return resultado[0] if resultado else None
