@@ -13,16 +13,13 @@ st.title("📚 Gerenciador de Perguntas do Simulado")
 db = DatabaseConnection()
 db.connect()
 
-
-# 🔍 Filtro por módulo com selectbox
-modulos = db.get_modulos()  # Ex: retorna lista como [1, 2, 3, 4]
-modulo_opcoes = ["Todos"] + [str(m) for m in modulos]
-
+# 🔍 Filtro por módulo
+modulos_disponiveis = db.get_modulos()
+modulo_opcoes = ["Todos"] + modulos_disponiveis
 modulo_selecionado = st.sidebar.selectbox("🔎 Filtrar por módulo", options=modulo_opcoes)
 
-# Carrega perguntas com base no filtro
 if modulo_selecionado != "Todos":
-    perguntas = db.get_perguntas(int(modulo_selecionado))
+    perguntas = db.get_perguntas(modulo_selecionado)
 else:
     perguntas = db.get_perguntas()
 

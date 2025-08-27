@@ -25,13 +25,20 @@ class DatabaseConnection:
         if self.conn:
             self.conn.close()
 
+    def get_modulos(self):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT DISTINCT PK_CO_PERGUNTA FROM TB_007_PERGUNTAS ORDER BY PK_CO_PERGUNTA")
+        modulos = [str(row[0]) for row in cursor.fetchall()]
+        cursor.close()
+        return modulos
+    
     def get_perguntas(self, filtro_modulo=None):
         cursor = self.conn.cursor()
         if filtro_modulo:
             cursor.execute(
-            "SELECT PK_CO_PERGUNTA, CO_PERGUNTA, DE_PERGUNTA FROM TB_007_PERGUNTAS WHERE PK_CO_PERGUNTA = ?",
-            filtro_modulo
-        )
+                "SELECT PK_CO_PERGUNTA, CO_PERGUNTA, DE_PERGUNTA FROM TB_007_PERGUNTAS WHERE PK_CO_PERGUNTA = ?",
+                (filtro_modulo,)
+            )
         else:
             cursor.execute("SELECT PK_CO_PERGUNTA, CO_PERGUNTA, DE_PERGUNTA FROM TB_007_PERGUNTAS")
 
@@ -39,6 +46,7 @@ class DatabaseConnection:
         rows = [dict(zip(columns, row)) for row in cursor.fetchall()]
         cursor.close()
         return rows
+
 
     def insert_pergunta(self, codigo, descricao):
         cursor = self.conn.cursor()
