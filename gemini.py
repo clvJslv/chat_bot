@@ -100,9 +100,9 @@ else:
         width: 200px;
         height: 30px;
         padding: 5px;
-        font-size: 14px;
+        font-size: 50px;
         border-radius: 6px;
-        border: 1px solid #10b981;
+        border: 1px solid #0000004c;
         background-color: #1f2937;
         color: #f5f5f5;
     }
@@ -115,6 +115,14 @@ else:
         margin-bottom: 20px;
         color: #10b981;
     }
+    .st.text_input {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 20px;
+        color: #10b981;
+    }
+    
     </style>
 """, unsafe_allow_html=True)
 
