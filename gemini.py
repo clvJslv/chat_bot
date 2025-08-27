@@ -137,9 +137,9 @@ if "usuario" in st.session_state:
             st.switch_page("pages/Cadastrar_Respostas.py")
         if st.button("🗂️   Cadastrar Usuários", key="btn_cadastrar_usuarios"):
             st.switch_page("pages/Cadastrar_Usuarios.py")
-            st.markdown("---")
+        st.markdown("---")
         st.markdown("## ⚙️ Navegação")
-        if st.button("🗂️   Matriz de Acesso", key="btn_cadastrar_usuarios"):
+        if st.button("🗂️   Matriz de Acesso", key="btn_Matriz"):
             st.switch_page("pages/Matriz.py")
         
         st.markdown("---")
