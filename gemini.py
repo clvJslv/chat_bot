@@ -120,7 +120,7 @@ else:
 
 # Layout
     st.sidebar.markdown("---")
-    st.markdown("<div class='login-title'>Login</div>", unsafe_allow_html=True)
+    st.markdown("<div class='login-title'>Login1</div>", unsafe_allow_html=True)
 
 # Campos de entrada
     usuario = st.text_input("Usuário")
