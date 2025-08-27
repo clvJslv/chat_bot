@@ -183,7 +183,7 @@ class DatabaseConnection:
     def listar_usuarios(self):
         try:
             cursor = self.conn.cursor()
-            cursor.execute("SELECT nome FROM usuarios ORDER BY nome")
+            cursor.execute("SELECT nome FROM TB_010_USUARIOS ORDER BY nome")
             return [row[0] for row in cursor.fetchall()]
         except Exception as e:
             print(f"Erro ao listar usuários: {e}")
