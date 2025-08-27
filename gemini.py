@@ -113,7 +113,7 @@ with st.sidebar:
     if st.button("✅   Teste de Conexão", key="btn_azure"):
         st.switch_page("pages/conn_azure.py")
     if st.button("↩️   Retornar", key="btn_retornar"):
-        st.switch_page("gemini.py")
+        st.switch_page("pages/gemini.py")
     st.markdown("---")
     st.markdown("## ⚙️   Cadastro")
     if st.button("🗂️   Questões", key="btn_cadastrar"):
@@ -126,16 +126,4 @@ with st.sidebar:
     st.markdown("### 📞   Suporte")
     st.write("Email: suporte@meuapp.com")
 
-    st.markdown("<h1 style='text-align: center; color: #4B8BBE;'>🎒 Aplicação para Avaliação de Alunos</h1>", unsafe_allow_html=True)
-
-    with st.expander("ℹ️ Sobre este portal"):
-        st.markdown("""
-            Este é um aplicativo que utiliza IA com consultas ao chatbot (GEMINI) para gerar simulados de acordo com descritores,
-            apresentando sugestões de conteúdo para estudo das questões respondidas de forma errada.
-
-            - 📚 [Documentação oficial do Streamlit](https://docs.streamlit.io/)
-            - 🐞 [Reportar falhas ou bugs](https://github.com/streamlit/streamlit/issues)
-        """)
-
-    st.divider()
-    st.markdown("### 🧪 Bem-vindo ao APP Simulado assistido por IA")
+   
