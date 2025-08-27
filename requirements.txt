@@ -2,9 +2,9 @@ google-generativeai
 requests
 python-dotenv
 pyodbc
-streamlit==1.33.0
-streamlit-modal==0.1.2
-psycopg2-binary==2.9.9
+streamlit
+streamlit-modal
+psycopg2-binary
 
 
 
