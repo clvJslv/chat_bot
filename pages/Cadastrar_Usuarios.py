@@ -1,10 +1,12 @@
 import streamlit as st
+from database import DatabaseConnection
 
 with open("assets/style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 st.title("🚧 Página em Construção")
 st.image("em_construcao.jpg", caption="Estamos trabalhando nisso!", width=300)
+
 
 # Estilização da barra lateral
 st.markdown("""
@@ -88,3 +90,29 @@ with st.sidebar:
 
         with open("assets/style.css") as f:
             st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+# 🔌 Conexão com o banco
+db = DatabaseConnection()
+db.connect()
+
+st.title("🔄 Cadastro ou Atualização de Usuário")
+
+with st.form("form_usuario"):
+    usuario = st.text_input("👤 Nome de usuário")
+    senha = st.text_input("🔒 Senha", type="password")
+    perfil = st.selectbox("🎓 Perfil", ["Aluno", "Professor", "Administrador"])
+    enviar = st.form_submit_button("💾 Salvar")
+
+if enviar:
+    if not usuario.strip() or not senha.strip():
+        st.warning("⚠️ Usuário e senha são obrigatórios.")
+    else:
+        resultado = db.merge_usuario(usuario.strip(), senha.strip(), perfil)
+        if resultado == "inserido":
+            st.success(f"✅ Usuário '{usuario}' cadastrado com sucesso!")
+        elif resultado == "atualizado":
+            st.info(f"🔁 Usuário '{usuario}' atualizado com sucesso!")
+        else:
+            st.error(f"❌ Erro: {resultado}")
+
+db.close()
