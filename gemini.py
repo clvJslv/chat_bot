@@ -47,14 +47,7 @@ st.markdown("""
 st.markdown("### 🧪 Bem-vindo ao APP Simulado assistido por IA")
 st.markdown("---")
 
-if st.button("🚪 Sair"):
-    # Remove dados de sessão
-    for key in ["usuario", "perfil"]:
-        st.session_state.pop(key, None)
-    # Reinicia a aplicação
-    st.rerun()
-
-   
+  
 if "usuario" not in st.session_state:
     if st.button("Fazer Login"):
         modal.open()
@@ -142,6 +135,14 @@ if "usuario" in st.session_state:
         st.markdown("---")
         st.markdown("### 📞   Suporte")
         st.write("Email: suporte@meuapp.com")
+        
+        # Botão para sair
+        if st.button("🚪 Sair"):
+            # Remove dados de sessão
+            for key in ["usuario", "perfil"]:
+                st.session_state.pop(key, None)
+            # Reinicia a aplicação
+                st.rerun()
 
         with open("assets/style.css") as f:
             st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
