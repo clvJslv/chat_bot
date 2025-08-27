@@ -81,7 +81,7 @@ st.markdown("""
 
 # Se o usuário já estiver logado
 if "perfil" in st.session_state:
-    st.markdown("<div class='login-box'>", unsafe_allow_html=True)
+    #st.markdown("<div class='login-box'>", unsafe_allow_html=True)
     st.markdown(f"<div class='login-title'>Bem-vindo, {st.session_state.usuario}</div>", unsafe_allow_html=True)
     st.success(f"Perfil: {st.session_state.perfil}")
     if st.button("🚪  Logout"):
