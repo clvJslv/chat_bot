@@ -140,7 +140,7 @@ if "usuario" in st.session_state:
         st.markdown("---")
         st.markdown("## ⚙️ Navegação")
         if st.button("🗂️   Matriz de Acesso", key="btn_Matriz"):
-            st.switch_page("pages/Matriz.py")
+            st.switch_page("pages/matriz.py")
         
         st.markdown("---")
         st.markdown("### 📞   Suporte")
