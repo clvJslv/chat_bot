@@ -128,3 +128,31 @@ class DatabaseConnection:
         except Exception as e:
             print(f"Erro ao listar usuários: {e}")
             return []
+    def merge_usuario(self, usuario, senha, perfil):
+        cursor = self.conn.cursor()
+        try:
+            # Verifica se o usuário já existe
+            cursor.execute("SELECT id FROM TB_010_USUARIOS WHERE usuario = ?", (usuario,))
+            resultado = cursor.fetchone()
+
+            if resultado:
+                # Atualiza usuário existente
+                cursor.execute("""
+                    UPDATE TB_010_USUARIOS
+                    SET senha = ?, perfil = ?
+                    WHERE usuario = ?
+                """, (senha, perfil, usuario))
+                self.conn.commit()
+                return "atualizado"
+            else:
+                # Insere novo usuário
+                cursor.execute("""
+                    INSERT INTO TB_010_USUARIOS (usuario, senha, perfil)
+                    VALUES (?, ?, ?)
+                """, (usuario, senha, perfil))
+                self.conn.commit()
+                return "inserido"
+        except Exception as e:
+            return f"erro: {str(e)}"
+        finally:
+            cursor.close()
