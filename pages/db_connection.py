@@ -24,7 +24,7 @@ class DatabaseConnection:
     def close(self):
         if self.conn:
             self.conn.close()
-
+    
     def get_modulos(self):
         cursor = self.conn.cursor()
         cursor.execute("SELECT DISTINCT PK_CO_PERGUNTA FROM TB_007_PERGUNTAS ORDER BY PK_CO_PERGUNTA")
