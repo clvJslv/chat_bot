@@ -51,8 +51,9 @@ with st.sidebar:
     st.markdown("## 🧭 Navegação")
     if st.button("🤖 Ir para Chatbot         ", key="btn_chatbot"):
        st.switch_page("pages/chatbot.py")
-       st.markdown("---")
-       st.markdown("## ⚙️ Cadastro")
+    st.markdown("---")
+    st.markdown("## ⚙️ Cadastro")
+    
     if st.button("🤖 Questões                ", key="btn_cadastrar"):
         st.switch_page("pages/Cadastrar_Questões.py")
     if st.button("🤖 Respostas               ", key="btn_cadastrar_respostas"):
