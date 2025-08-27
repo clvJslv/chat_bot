@@ -114,11 +114,17 @@ class DatabaseConnection:
         cursor.close()
     
     # 🔐 Autenticação
-    def autenticar_usuario(self,usuario, senha):
+    def autenticar_usuario(self, usuario, senha):
         cursor = self.conn.cursor()
-        cursor.execute("SELECT perfil FROM TB_010_USUARIOS WHERE usuario=? AND senha=?", (usuario, senha))
-        resultado = cursor.fetchone()
-        return resultado[0] if resultado else None
+        cursor.execute("""
+            SELECT id_usuario, perfil FROM TB_010_USUARIOS
+            WHERE usuario = ? AND senha = ?
+        """, (usuario, senha))
+        result = cursor.fetchone()
+        if result:
+            return {"id": result[0], "perfil": result[1]}
+        return None
+
     
     def listar_usuarios(self):
         try:
