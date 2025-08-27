@@ -137,14 +137,13 @@ if "usuario" in st.session_state:
             st.switch_page("pages/Cadastrar_Respostas.py")
         if st.button("🗂️   Cadastrar Usuários", key="btn_cadastrar_usuarios"):
             st.switch_page("pages/Cadastrar_Usuarios.py")
-        st.markdown("---")
-        st.markdown("## ⚙️ Navegação")
-        if st.button("🗂️   Matriz de Acesso", key="btn_Matriz"):
+        if st.button("🗂️   Matriz de Acesso", key="btn_matriz"):
             st.switch_page("matriz.py")
         
         st.markdown("---")
         st.markdown("### 📞   Suporte")
         st.write("Email: suporte@meuapp.com")
+        
         
         # Botão para sair
         if st.button("🚪 Sair"):
