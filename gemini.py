@@ -72,11 +72,8 @@ if st.button("Entrar"):
     else:
         st.error("Usuário ou senha inválidos")
     
-    
 # Verifica se o usuário está logado
-    if "perfil" in st.session_state:
-        st.sidebar.markdown("---")
-    if st.sidebar.button("🚪  Logout"):
+    if st.button("🚪  Logout"):
         # Limpa a sessão
         st.session_state.clear()
         st.success("Logout realizado com sucesso!")
