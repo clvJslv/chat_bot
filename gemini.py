@@ -1,14 +1,14 @@
 import streamlit as st
 from db_connection import DatabaseConnection
 
-# Estilo
+# Estilo externo
 with open("assets/style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-# Configuração
+# Configuração da página
 st.set_page_config(page_title="Simulado SAEB", page_icon="🧠", layout="wide")
 
-# Conexão
+# Conexão com banco
 db = DatabaseConnection()
 db.connect()
 
@@ -16,160 +16,75 @@ if not db.conn:
     st.error("❌ Conexão com o banco falhou.")
     st.stop()
 
-# Estilização da barra lateral
+# Estilo adicional
 st.markdown("""
     <style>
-        [data-testid="stSidebar"] {
-           background: linear-gradient( #000000, #0000004c, #06080075);
-           color: white;
-           box-shadow: 0 0 10px rgba(0,0,0,0.5);
-           padding: 20px;
-           border-radius: 10px;
-        }
-       
-        [data-testid="stSidebar"] {
-           height: 100vh;
-        overflow-y: auto;
-}
-
-        [data-testid="stSidebar"] h2 {
-            color: #10b981;
-        }
-        [data-testid="stSidebar"] .stButton button {
-           background-color: #0000004c;
-           color: rgba(245, 245, 245, 0.849);
-           text-align: left;
-           padding-left: 12px;
-           width: 240px;
-           height: 40px;
-           border: none;
-           border-radius: 8px;
-           font-size: 18px;
-           font-weight: bold;
-           box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-           cursor: pointer;
-           transition: background-color 0.3s ease-in-out;
-           display: flex;
-           justify-content: flex-start;   /* Alinha conteúdo à esquerda */
-           align-items: center;           /* Centraliza verticalmente */
-           padding-left: 12px;            /* Espaço interno à esquerda */
-           text-align: left;              /* Redundante, mas seguro */
-        }
-    </style>
-""", unsafe_allow_html=True)
-
-# Estilo personalizado
-st.markdown("""
-    <style>
-        .login-box {
-            background-color: #0000004c;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            max-width: 400px;
-            margin: auto;
-            color: white;
-        }
         .login-title {
+            font-size: 24px;
+            font-weight: bold;
             text-align: center;
-            font-size: 28px;
             margin-bottom: 20px;
             color: #10b981;
         }
+
+        div[data-testid="stSelectbox"] {
+            width: 220px;
+            margin-bottom: 10px;
+        }
+
+        div[data-testid="stSelectbox"] label {
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        div[data-testid="stSelectbox"] .stSelectbox {
+            background-color: #f9fafb;
+            border: 2px solid #10b981;
+            border-radius: 6px;
+            padding: 6px 10px;
+            color: #111827;
+        }
+
+        div[data-testid="stTextInput"] input {
+            width: 220px;
+            height: 32px;
+            padding: 6px 10px;
+            font-size: 14px;
+            border: 2px solid #3b82f6;
+            border-radius: 6px;
+            background-color: #f3f4f6;
+            color: #1f2937;
+        }
     </style>
 """, unsafe_allow_html=True)
 
-# Se o usuário já estiver logado
+# Se já estiver logado
 if "perfil" in st.session_state:
-    #st.markdown("<div class='login-box'>", unsafe_allow_html=True)
-    #st.markdown(f"<div class='login-title'>Bem-vindo, {st.session_state.usuario}</div>", unsafe_allow_html=True)
-    #st.success(f"Perfil: {st.session_state.perfil}")
     if st.button("🚪  Logout"):
         del st.session_state["perfil"]
         del st.session_state["usuario"]
         st.rerun()
-    st.markdown("</div>", unsafe_allow_html=True)
-
-# Tela de login
 else:
-    #st.markdown("<div class='login-box'>", unsafe_allow_html=True)
-    st.markdown("""
-    <style>
-    /* Estiliza todos os campos de texto */
-    div[data-testid="stTextInput"] input {
-        width: 200px;
-        height: 30px;
-        padding: 5px;
-        font-size: 50px;
-        border-radius: 6px;
-        border: 1px solid #0000004c;
-        background-color: #1f2937;
-        color: #f5f5f5;
-    }
+    st.markdown("<div class='login-title'>Login</div>", unsafe_allow_html=True)
 
-    /* Estilo para o título */
-    .login-title {
-        font-size: 24px;
-        font-weight: bold;
-        text-align: center;
-        margin-bottom: 20px;
-        color: #10b981;
-    }
-   /* Estilo para campo de texto (Usuário) */
-    div[data-testid="stTextInput"]:nth-of-type(1) input {
-        width: 220px;
-        height: 32px;
-        padding: 6px 10px;
-        font-size: 14px;
-        border: 2px solid #10b981;
-        border-radius: 6px;
-        background-color: #f9fafb;
-        color: #111827;
-    }
+    # Listar usuários cadastrados
+    usuarios_cadastrados = db.listar_usuarios()
 
-    /* Estilo para campo de senha (Senha) */
-    div[data-testid="stTextInput"]:nth-of-type(2) input {
-        width: 220px;
-        height: 32px;
-        padding: 6px 10px;
-        font-size: 14px;
-        border: 2px solid #3b82f6;
-        border-radius: 6px;
-        background-color: #f3f4f6;
-        color: #1f2937;
-    }
+    if usuarios_cadastrados:
+        usuario = st.selectbox("Selecione o usuário", usuarios_cadastrados)
+        senha = st.text_input("Senha", type="password")
 
-    /* Placeholder estilizado */
-    input::placeholder {
-        color: #9ca3af;
-        font-style: italic;
-    }
-
-    
-    </style>
-""", unsafe_allow_html=True)
-
-# Layout
-    st.sidebar.markdown("---")
-    st.markdown("<div class='login-title'>Login1</div>", unsafe_allow_html=True)
-
-# Campos de entrada
-    usuario = st.text_input("Usuário")
-    senha = st.text_input("Senha", type="password")
-
-
-    if st.button("Entrar"):
-        perfil = db.autenticar_usuario(usuario, senha)
-        if perfil:
-            st.session_state.perfil = perfil
-            st.session_state.usuario = usuario
-            st.success("Login realizado com sucesso!")
-            st.rerun()
-        else:
-            st.error("Usuário ou senha inválidos.")
-
-    #st.markdown("</div>", unsafe_allow_html=True)
-
+        if st.button("Entrar"):
+            perfil = db.autenticar_usuario(usuario, senha)
+            if perfil:
+                st.session_state.perfil = perfil
+                st.session_state.usuario = usuario
+                st.success("✅ Login realizado com sucesso!")
+                st.rerun()
+            else:
+                st.error("❌ Usuário ou senha inválidos.")
+    else:
+        st.warning("Nenhum usuário cadastrado no sistema.")
 
 # Menu lateral
 if "perfil" in st.session_state:
